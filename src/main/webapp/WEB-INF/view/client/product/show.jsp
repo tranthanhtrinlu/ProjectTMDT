@@ -76,35 +76,35 @@
                                                 <div class="mb-2"><b>Hãng sản xuất</b></div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="factory-1"
-                                                        value="APPLE">
-                                                    <label class="form-check-label" for="factory-1">Apple</label>
+                                                        value="DUCKY">
+                                                    <label class="form-check-label" for="factory-1">Ducky</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="factory-2"
-                                                        value="ASUS">
-                                                    <label class="form-check-label" for="factory-2">Asus</label>
+                                                        value="FILCO">
+                                                    <label class="form-check-label" for="factory-2">Filco</label>
                                                 </div>
 
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="factory-3"
-                                                        value="LENOVO">
-                                                    <label class="form-check-label" for="factory-3">Lenovo</label>
+                                                        value="RAZER">
+                                                    <label class="form-check-label" for="factory-3">Razer</label>
                                                 </div>
 
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="factory-4"
-                                                        value="DELL">
-                                                    <label class="form-check-label" for="factory-4">Dell</label>
+                                                        value="LOGITECH">
+                                                    <label class="form-check-label" for="factory-4">Logitech</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="factory-5"
-                                                        value="LG">
-                                                    <label class="form-check-label" for="factory-5">LG</label>
+                                                        value="AKKO">
+                                                    <label class="form-check-label" for="factory-5">Akko</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="factory-6"
-                                                        value="ACER">
-                                                    <label class="form-check-label" for="factory-6">Acer</label>
+                                                        value="FUHLEN">
+                                                    <label class="form-check-label" for="factory-6">Fuhlen</label>
                                                 </div>
 
                                             </div>
