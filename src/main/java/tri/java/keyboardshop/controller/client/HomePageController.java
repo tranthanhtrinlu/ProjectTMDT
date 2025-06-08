@@ -53,6 +53,14 @@ public class HomePageController {
         model.addAttribute("products", products);
         return "client/homepage/show";
     }
+    @GetMapping("/show")
+    public String getShowPage(Model model) {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<Product> prs = this.productService.fetchProducts(pageable);
+        List<Product> products = prs.getContent();
+        model.addAttribute("products", products);
+        return "client/product/show"; // Sử dụng cùng view với trang chủ nếu muốn
+    }
 
     @GetMapping("/register")
     public String getRegisterPage(Model model) {
@@ -106,5 +114,49 @@ public class HomePageController {
 
         return "client/cart/order-history";
     }
+    @GetMapping("/profile/edit")
+    public String showEditProfilePage(Model model, HttpSession session) {
+        return "client/profile/edit-profile";
+    }
+    @GetMapping("/profile/change-password")
+    public String showChangePasswordPage(HttpSession session) {
+        if (session.getAttribute("id") == null) {
+            return "redirect:/login"; // Chuyển hướng nếu chưa đăng nhập
+        }
+       return "client/profile/change-password";
+    }
+
+    @GetMapping("/custom")
+    public String showCustomKeyboardPage(Model model) {
+        return "client/service/custom-keyboard";
+    }
+
+    @GetMapping("/about-us")
+    public String showAboutUsPage(Model model) {
+        return "client/service/about-us";
+    }
+
+    @GetMapping("/support")
+    public String showSupportPage(Model model) {
+        return "client/service/support";
+    }
+
+    @PostMapping("/custom/submit")
+    public String submitCustomRequest(
+            Model model) {
+        // Logic xử lý yêu cầu tùy chỉnh (lưu vào database hoặc gửi email)
+        model.addAttribute("success", "Yêu cầu của bạn đã được gửi thành công!");
+        return "redirect:/custom";
+    }
+    @GetMapping("/contact")
+    public String showContactPage(Model model) {
+        return "client/service/contact";
+    }
+
+    @PostMapping("/contact/submit")
+    public String submitContactForm() {
+            return "client/service/thank-you"; // Chuyển hướng đến trang cảm ơn
+    }
+
 
 }

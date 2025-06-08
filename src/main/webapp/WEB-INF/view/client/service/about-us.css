@@ -1,0 +1,36 @@
+.about-card {
+    border-radius: 15px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ecf0f1 100%);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    padding: 2rem;
+}
+
+.about-card h2 {
+    color: #2c3e50;
+    font-weight: 700;
+}
+
+.about-card .lead {
+    font-size: 1.25rem;
+    color: #34495e;
+    line-height: 1.6;
+}
+
+.about-card p {
+    color: #7f8c8d;
+    margin-bottom: 1.5rem;
+}
+
+.btn-outline-primary {
+    border: 2px solid #3498db;
+    color: #3498db;
+    padding: 0.5rem 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background: #3498db;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+}
