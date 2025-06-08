@@ -3,67 +3,54 @@
         <!-- Navbar start -->
         <div class="container-fluid fixed-top">
             <div class="container px-0">
-                <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                    <a href="/" class="navbar-brand">
-                        <h1 class="text-primary display-6">KeyBoardShop</h1>
-                    </a>
-                    <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarCollapse">
-                        <span class="fa fa-bars text-primary"></span>
-                    </button>
-                    <div class="collapse navbar-collapse bg-white justify-content-between mx-5" id="navbarCollapse">
-                        <div class="navbar-nav">
-                            <a href="/" class="nav-item nav-link active">Trang Chủ</a>
-                            <a href="/products" class="nav-item nav-link">Sản Phẩm</a>
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="/">KeyBoardShop</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav ms-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/show">Sản phẩm</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/cart">Giỏ hàng</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/custom">Tùy Chỉnh Bàn Phím</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/about-us">Giới Thiệu</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/support">Hỗ Trợ</a>
+                                </li>
 
-                        </div>
-                        <div class="d-flex m-3 me-0">
-                            <c:if test="${not empty pageContext.request.userPrincipal}">
-                                <a href="/cart" class="position-relative me-4 my-auto">
-                                    <i class="fa fa-shopping-bag fa-2x"></i>
-                                    <span
-                                        class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-                                        style="top: -5px; left: 15px; height: 20px; min-width: 20px;" id="sumCart">
-                                        ${sessionScope.sum}
-                                    </span>
-                                </a>
-                                <div class="dropdown my-auto">
-                                    <a href="#" class="dropdown" role="button" id="dropdownMenuLink"
-                                        data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        <i class="fas fa-user fa-2x"></i>
-                                    </a>
-
-                                    <ul class="dropdown-menu dropdown-menu-end p-4" aria-labelledby="dropdownMenuLink">
-                                        <li class="d-flex align-items-center flex-column" style="min-width: 300px;">
-                                            <img style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden;"
-                                                src="/images/avatar/${sessionScope.avatar}" />
-                                            <div class="text-center my-3">
-                                                <c:out value="${sessionScope.fullName}" />
-                                            </div>
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Quản lý tài khoản</a></li>
-
-                                        <li><a class="dropdown-item" href="/order-history">Lịch sử mua hàng</a></li>
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
-                                        <li>
-                                            <form method="post" action="/logout">
-                                                <input type="hidden" name="${_csrf.parameterName}"
-                                                    value="${_csrf.token}" />
-                                                <button class="dropdown-item">Đăng xuất</button>
-                                            </form>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </c:if>
-                            <c:if test="${empty pageContext.request.userPrincipal}">
-                                <a href="/login" class="a-login position-relative me-4 my-auto">
-                                    Đăng nhập
-                                </a>
-                            </c:if>
+                                <!-- Kiểm tra đăng nhập để hiển thị liên kết profile -->
+                                <c:if test="${not empty sessionScope.id}">
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-user"></i> Tài khoản
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <li><a class="dropdown-item" href="/profile/edit">Thay đổi thông tin</a></li>
+                                            <li><a class="dropdown-item" href="/profile/change-password">Đổi mật khẩu</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="/logout">Đăng xuất</a></li>
+                                        </ul>
+                                    </li>
+                                </c:if>
+                                <!-- Hiển thị đăng nhập/đăng ký nếu chưa đăng nhập -->
+                                <c:if test="${empty sessionScope.id}">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/login">Đăng nhập</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/register">Đăng ký</a>
+                                    </li>
+                                </c:if>
+                            </ul>
                         </div>
                     </div>
                 </nav>
