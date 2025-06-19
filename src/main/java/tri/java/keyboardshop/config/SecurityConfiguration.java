@@ -12,10 +12,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
-
 import jakarta.servlet.DispatcherType;
 import tri.java.keyboardshop.service.CustomUserDetailsService;
 import tri.java.keyboardshop.service.UserService;
+import tri.java.keyboardshop.service.userinfo.CustomOAuth2UserService;
 
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
@@ -57,7 +57,9 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain filterChain(
+            HttpSecurity http,
+            UserService userService) throws Exception {
         // v6. lamda
         http
                 .authorizeHttpRequests(authorize -> authorize
@@ -65,13 +67,20 @@ public class SecurityConfiguration {
                                 DispatcherType.INCLUDE)
                         .permitAll()
 
-                        .requestMatchers("/", "/login", "/product/**", "/register", "/products/**",
-                                "/client/**", "/css/**", "/js/**", "/images/**", "/admin", "/admin/**")
+                        .requestMatchers("/", "/login", "/product/**", "/register",
+                                "/products/**",
+                                "/client/**", "/css/**", "/js/**", "/images/**")
                         .permitAll()
 
-//                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
 
                         .anyRequest().authenticated())
+
+                .oauth2Login(oauth2 -> oauth2.loginPage("/login")
+                        .defaultSuccessUrl("/", true)
+                        .failureUrl("/login?error")
+                        .userInfoEndpoint(user -> user
+                                .userService(new CustomOAuth2UserService(userService))))
 
                 .sessionManagement((sessionManagement) -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)

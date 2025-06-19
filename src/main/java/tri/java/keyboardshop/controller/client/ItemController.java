@@ -1,37 +1,36 @@
 package tri.java.keyboardshop.controller.client;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import tri.java.keyboardshop.domain.Cart;
-import tri.java.keyboardshop.domain.CartDetail;
-import tri.java.keyboardshop.domain.Product;
-import tri.java.keyboardshop.domain.Product_;
-import tri.java.keyboardshop.domain.User;
+import org.springframework.web.bind.annotation.*;
+import tri.java.keyboardshop.domain.*;
 import tri.java.keyboardshop.domain.dto.ProductCriteriaDTO;
 import tri.java.keyboardshop.service.ProductService;
+import tri.java.keyboardshop.service.VNPayService;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 public class ItemController {
 
     private final ProductService productService;
+    private final VNPayService vNPayService;
 
-    public ItemController(ProductService productService) {
+    public ItemController(
+            ProductService productService,
+            VNPayService vNPayService) {
         this.productService = productService;
+        this.vNPayService = vNPayService;
     }
 
     @GetMapping("/product/{id}")
@@ -120,19 +119,45 @@ public class ItemController {
             HttpServletRequest request,
             @RequestParam("receiverName") String receiverName,
             @RequestParam("receiverAddress") String receiverAddress,
-            @RequestParam("receiverPhone") String receiverPhone) {
+            @RequestParam("receiverPhone") String receiverPhone,
+            @RequestParam("paymentMethod") String paymentMethod,
+            @RequestParam("totalPrice") String totalPrice) throws UnsupportedEncodingException {
         User currentUser = new User();// null
         HttpSession session = request.getSession(false);
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
 
-        this.productService.handlePlaceOrder(currentUser, session, receiverName, receiverAddress, receiverPhone);
+        final String uuid = UUID.randomUUID().toString().replace("-", "");
+
+        this.productService.handlePlaceOrder(currentUser, session,
+                receiverName, receiverAddress, receiverPhone,
+                paymentMethod, uuid);
+
+        if (!paymentMethod.equals("COD")) {
+            // todo: redirect to VNPAY
+            String ip = this.vNPayService.getIpAddress(request);
+            String vnpUrl = this.vNPayService.generateVNPayURL(Double.parseDouble(totalPrice), uuid, ip);
+
+            return "redirect:" + vnpUrl;
+        }
 
         return "redirect:/thanks";
+
     }
 
     @GetMapping("/thanks")
-    public String getThankYouPage(Model model) {
+    public String getThankYouPage(
+            Model model,
+            @RequestParam("vnp_ResponseCode") Optional<String> vnpayResponseCode,
+            @RequestParam("vnp_TxnRef") Optional<String> paymentRef) {
+
+        if (vnpayResponseCode.isPresent() && paymentRef.isPresent()) {
+            // thanh toán qua VNPAY, cập nhật trạng thái order
+            String paymentStatus = vnpayResponseCode.get().equals("00")
+                    ? "PAYMENT_SUCCEED"
+                    : "PAYMENT_FAILED";
+            this.productService.updatePaymentStatus(paymentRef.get(), paymentStatus);
+        }
 
         return "client/cart/thanks";
     }

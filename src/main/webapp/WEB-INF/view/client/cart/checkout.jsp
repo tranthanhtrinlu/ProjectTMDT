@@ -8,7 +8,7 @@
 
                 <head>
                     <meta charset="utf-8">
-                    <title> Thanh toán - KeyBoardShop</title>
+                    <title> Thanh toán - Laptopshop</title>
                     <meta content="width=device-width, initial-scale=1.0" name="viewport">
                     <meta content="" name="keywords">
                     <meta content="" name="description">
@@ -141,6 +141,27 @@
                                                         <label>Số điện thoại</label>
                                                         <input class="form-control" name="receiverPhone" required />
                                                     </div>
+
+                                                    <div class="col-12 form-group mb-3">
+                                                        <label>Hình thức thanh toán</label>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="paymentMethod" value="COD" id="COD" checked>
+                                                            <label class="form-check-label" for="COD">
+                                                                Thanh toán khi nhận hàng
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="paymentMethod" value="BANKING" id="BANKING">
+                                                            <label class="form-check-label" for="BANKING">
+                                                                Thanh toán bằng ví VNPAY
+                                                            </label>
+                                                        </div>
+                                                        <input style="display: none;" value="${totalPrice}"
+                                                            name="totalPrice" />
+                                                    </div>
+
                                                     <div class="mt-4">
                                                         <i class="fas fa-arrow-left"></i>
                                                         <a href="/cart">Quay lại giỏ hàng</a>
@@ -178,7 +199,7 @@
 
                                                 <button
                                                     class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4">
-                                                    Xác nhận thanh toán
+                                                    Xác nhận đặt hàng
                                                 </button>
 
                                             </div>

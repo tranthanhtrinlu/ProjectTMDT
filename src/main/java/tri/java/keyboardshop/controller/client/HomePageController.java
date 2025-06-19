@@ -1,7 +1,8 @@
 package tri.java.keyboardshop.controller.client;
 
-import java.util.List;
-
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,10 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import tri.java.keyboardshop.domain.Order;
 import tri.java.keyboardshop.domain.Product;
 import tri.java.keyboardshop.domain.User;
@@ -23,6 +20,8 @@ import tri.java.keyboardshop.domain.dto.RegisterDTO;
 import tri.java.keyboardshop.service.OrderService;
 import tri.java.keyboardshop.service.ProductService;
 import tri.java.keyboardshop.service.UserService;
+
+import java.util.List;
 
 @Controller
 public class HomePageController {

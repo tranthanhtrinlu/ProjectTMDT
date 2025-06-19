@@ -22,10 +22,10 @@
         <body>
             hello from jsp
             <h1>
-                ${tri}
+                ${eric}
             </h1>
             <h2>
-                ${thanhtri}
+                ${hoidanit}
             </h2>
             <button class="btn btn-warning">Submit</button>
         </body>

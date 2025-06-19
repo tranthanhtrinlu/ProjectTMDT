@@ -1,14 +1,12 @@
 package tri.java.keyboardshop.controller.client;
 
-import org.springframework.web.bind.annotation.RestController;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import tri.java.keyboardshop.service.ProductService;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import tri.java.keyboardshop.service.ProductService;
 
 class CartRequest {
     private long quantity;

@@ -1,11 +1,8 @@
 package tri.java.keyboardshop.service;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import tri.java.keyboardshop.domain.Role;
 import tri.java.keyboardshop.domain.User;
 import tri.java.keyboardshop.domain.dto.RegisterDTO;
@@ -13,6 +10,8 @@ import tri.java.keyboardshop.repository.OrderRepository;
 import tri.java.keyboardshop.repository.ProductRepository;
 import tri.java.keyboardshop.repository.RoleRepository;
 import tri.java.keyboardshop.repository.UserRepository;
+
+import java.util.List;
 
 @Service
 public class UserService {

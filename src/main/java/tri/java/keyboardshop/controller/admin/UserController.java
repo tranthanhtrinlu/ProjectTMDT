@@ -1,8 +1,6 @@
 package tri.java.keyboardshop.controller.admin;
 
-import java.util.List;
-import java.util.Optional;
-
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -10,14 +8,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import jakarta.validation.Valid;
 import tri.java.keyboardshop.domain.User;
 import tri.java.keyboardshop.service.UploadService;
 import tri.java.keyboardshop.service.UserService;
+
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class UserController {
@@ -40,8 +38,8 @@ public class UserController {
         List<User> arrUsers = this.userService.getAllUsersByEmail("1@gmail.com");
         System.out.println(arrUsers);
 
-        model.addAttribute("tri", "test");
-        model.addAttribute("thanhtri", "from controller with model");
+        model.addAttribute("eric", "test");
+        model.addAttribute("hoidanit", "from controller with model");
         return "hello";
     }
 
@@ -87,9 +85,9 @@ public class UserController {
 
     @PostMapping(value = "/admin/user/create")
     public String createUserPage(Model model,
-            @ModelAttribute("newUser") @Valid User thanhtri,
+            @ModelAttribute("newUser") @Valid User hoidanit,
             BindingResult newUserBindingResult,
-            @RequestParam("thanhtriFile") MultipartFile file) {
+            @RequestParam("hoidanitFile") MultipartFile file) {
 
         // List<FieldError> errors = newUserBindingResult.getFieldErrors();
         // for (FieldError error : errors) {
@@ -104,13 +102,13 @@ public class UserController {
 
         //
         String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
-        String hashPassword = this.passwordEncoder.encode(thanhtri.getPassword());
+        String hashPassword = this.passwordEncoder.encode(hoidanit.getPassword());
 
-        thanhtri.setAvatar(avatar);
-        thanhtri.setPassword(hashPassword);
-        thanhtri.setRole(this.userService.getRoleByName(thanhtri.getRole().getName()));
+        hoidanit.setAvatar(avatar);
+        hoidanit.setPassword(hashPassword);
+        hoidanit.setRole(this.userService.getRoleByName(hoidanit.getRole().getName()));
         // save
-        this.userService.handleSaveUser(thanhtri);
+        this.userService.handleSaveUser(hoidanit);
         return "redirect:/admin/user";
     }
 
@@ -122,12 +120,12 @@ public class UserController {
     }
 
     @PostMapping("/admin/user/update")
-    public String postUpdateUser(Model model, @ModelAttribute("newUser") User thanhtri) {
-        User currentUser = this.userService.getUserById(thanhtri.getId());
+    public String postUpdateUser(Model model, @ModelAttribute("newUser") User hoidanit) {
+        User currentUser = this.userService.getUserById(hoidanit.getId());
         if (currentUser != null) {
-            currentUser.setAddress(thanhtri.getAddress());
-            currentUser.setFullName(thanhtri.getFullName());
-            currentUser.setPhone(thanhtri.getPhone());
+            currentUser.setAddress(hoidanit.getAddress());
+            currentUser.setFullName(hoidanit.getFullName());
+            currentUser.setPhone(hoidanit.getPhone());
 
             // bug here
             this.userService.handleSaveUser(currentUser);
@@ -145,8 +143,8 @@ public class UserController {
     }
 
     @PostMapping("/admin/user/delete")
-    public String postDeleteUser(Model model, @ModelAttribute("newUser") User tri) {
-        this.userService.deleteAUser(tri.getId());
+    public String postDeleteUser(Model model, @ModelAttribute("newUser") User eric) {
+        this.userService.deleteAUser(eric.getId());
         return "redirect:/admin/user";
     }
 }

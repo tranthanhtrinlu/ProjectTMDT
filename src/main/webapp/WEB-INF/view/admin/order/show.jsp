@@ -9,9 +9,9 @@
                 <meta charset="utf-8" />
                 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-                <meta name="description" content="Nong Lam - Dự án KeyBoardShop" />
-                <meta name="author" content="Nong Lam" />
-                <title>Manager Orders - Nông Lâm Keyboard</title>
+                <meta name="description" content="Hỏi Dân IT - Dự án laptopshop" />
+                <meta name="author" content="Hỏi Dân IT" />
+                <title>Manager Orders - Hỏi Dân IT</title>
                 <link href="/css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
             </head>
@@ -43,6 +43,7 @@
                                                         <th>Total Price</th>
                                                         <th>User</th>
                                                         <th>Status</th>
+                                                        <th>Payment</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -56,6 +57,11 @@
                                                             </td>
                                                             <td>${order.user.fullName}</td>
                                                             <td>${order.status}</td>
+                                                            <td>
+                                                                <div>Status: ${order.paymentStatus}</div>
+                                                                <div>Ref: ${order.paymentRef}</div>
+                                                                <div>Method: ${order.paymentMethod}</div>
+                                                            </td>
                                                             <td>
                                                                 <a href="/admin/order/${order.id}"
                                                                     class="btn btn-success">View</a>

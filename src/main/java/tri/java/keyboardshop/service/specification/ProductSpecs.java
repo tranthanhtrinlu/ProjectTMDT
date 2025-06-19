@@ -1,11 +1,10 @@
 package tri.java.keyboardshop.service.specification;
 
-import java.util.List;
-
 import org.springframework.data.jpa.domain.Specification;
-
 import tri.java.keyboardshop.domain.Product;
 import tri.java.keyboardshop.domain.Product_;
+
+import java.util.List;
 
 public class ProductSpecs {
     public static Specification<Product> nameLike(String name) {

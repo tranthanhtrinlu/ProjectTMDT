@@ -1,9 +1,8 @@
 package tri.java.keyboardshop.service.validator;
 
-import org.springframework.stereotype.Service;
-
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import org.springframework.stereotype.Service;
 import tri.java.keyboardshop.domain.dto.RegisterDTO;
 import tri.java.keyboardshop.service.UserService;
 

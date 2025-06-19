@@ -1,17 +1,16 @@
 package tri.java.keyboardshop.service;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import tri.java.keyboardshop.domain.Order;
 import tri.java.keyboardshop.domain.OrderDetail;
 import tri.java.keyboardshop.domain.User;
 import tri.java.keyboardshop.repository.OrderDetailRepository;
 import tri.java.keyboardshop.repository.OrderRepository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderService {

@@ -8,7 +8,7 @@
 
                 <head>
                     <meta charset="utf-8">
-                    <title> ${product.name} - KeyBoardShop</title>
+                    <title> ${product.name} - Laptopshop</title>
                     <meta content="width=device-width, initial-scale=1.0" name="viewport">
                     <meta content="" name="keywords">
                     <meta content="" name="description">
@@ -160,31 +160,31 @@
                                                 <ul class="list-unstyled fruite-categorie">
                                                     <li>
                                                         <div class="d-flex justify-content-between fruite-name">
-                                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>Filco</a>
+                                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>Apples</a>
                                                             <span>(3)</span>
                                                         </div>
                                                     </li>
                                                     <li>
                                                         <div class="d-flex justify-content-between fruite-name">
-                                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>Razer</a>
+                                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>Dell</a>
                                                             <span>(5)</span>
                                                         </div>
                                                     </li>
                                                     <li>
                                                         <div class="d-flex justify-content-between fruite-name">
-                                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>Logitech</a>
+                                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>Asus</a>
                                                             <span>(2)</span>
                                                         </div>
                                                     </li>
                                                     <li>
                                                         <div class="d-flex justify-content-between fruite-name">
-                                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>Akko</a>
+                                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>Acer</a>
                                                             <span>(8)</span>
                                                         </div>
                                                     </li>
                                                     <li>
                                                         <div class="d-flex justify-content-between fruite-name">
-                                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>Fuhlen</a>
+                                                            <a href="#"><i class="fas fa-apple-alt me-2"></i>Lenovo</a>
                                                             <span>(5)</span>
                                                         </div>
                                                     </li>

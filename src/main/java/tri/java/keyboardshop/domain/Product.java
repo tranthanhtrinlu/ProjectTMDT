@@ -1,19 +1,12 @@
 package tri.java.keyboardshop.domain;
 
-import java.io.Serializable;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+
+import java.io.Serializable;
 
 @Entity
 @Table(name = "products")
@@ -51,11 +44,6 @@ public class Product implements Serializable {
     private long sold;
     private String factory;
     private String target;
-
-    // Thêm thuộc tính category
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
 
     public long getId() {
         return id;
@@ -135,15 +123,6 @@ public class Product implements Serializable {
 
     public void setTarget(String target) {
         this.target = target;
-    }
-
-    // Getter và Setter cho category
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
     }
 
     @Override

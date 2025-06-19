@@ -1,27 +1,17 @@
 package tri.java.keyboardshop.service;
 
-import java.util.List;
-import java.util.Optional;
-
+import jakarta.servlet.http.HttpSession;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
-import jakarta.servlet.http.HttpSession;
-import tri.java.keyboardshop.domain.Cart;
-import tri.java.keyboardshop.domain.CartDetail;
-import tri.java.keyboardshop.domain.Order;
-import tri.java.keyboardshop.domain.OrderDetail;
-import tri.java.keyboardshop.domain.Product;
-import tri.java.keyboardshop.domain.User;
+import tri.java.keyboardshop.domain.*;
 import tri.java.keyboardshop.domain.dto.ProductCriteriaDTO;
-import tri.java.keyboardshop.repository.CartDetailRepository;
-import tri.java.keyboardshop.repository.CartRepository;
-import tri.java.keyboardshop.repository.OrderDetailRepository;
-import tri.java.keyboardshop.repository.OrderRepository;
-import tri.java.keyboardshop.repository.ProductRepository;
+import tri.java.keyboardshop.repository.*;
 import tri.java.keyboardshop.service.specification.ProductSpecs;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -215,7 +205,8 @@ public class ProductService {
 
     public void handlePlaceOrder(
             User user, HttpSession session,
-            String receiverName, String receiverAddress, String receiverPhone) {
+            String receiverName, String receiverAddress, String receiverPhone,
+            String paymentMethod, String uuid) {
 
         // step 1: get cart by user
         Cart cart = this.cartRepository.findByUser(user);
@@ -231,6 +222,10 @@ public class ProductService {
                 order.setReceiverAddress(receiverAddress);
                 order.setReceiverPhone(receiverPhone);
                 order.setStatus("PENDING");
+
+                order.setPaymentMethod(paymentMethod);
+                order.setPaymentStatus("PAYMENT_UNPAID");
+                order.setPaymentRef(paymentMethod.equals("COD") ? "UNKNOWN" : uuid);
 
                 double sum = 0;
                 for (CartDetail cd : cartDetails) {
@@ -263,5 +258,15 @@ public class ProductService {
             }
         }
 
+    }
+
+    public void updatePaymentStatus(String paymentRef, String paymentStatus) {
+        Optional<Order> orderOptional = this.orderRepository.findByPaymentRef(paymentRef);
+        if (orderOptional.isPresent()) {
+            // update
+            Order order = orderOptional.get();
+            order.setPaymentStatus(paymentStatus);
+            this.orderRepository.save(order);
+        }
     }
 }

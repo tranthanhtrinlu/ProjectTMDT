@@ -8,7 +8,7 @@
 
                 <head>
                     <meta charset="utf-8">
-                    <title> Sản Phẩm - KeyBoardShop</title>
+                    <title> Sản Phẩm - Laptopshop</title>
                     <meta content="width=device-width, initial-scale=1.0" name="viewport">
                     <meta content="" name="keywords">
                     <meta content="" name="description">
@@ -76,35 +76,35 @@
                                                 <div class="mb-2"><b>Hãng sản xuất</b></div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="factory-1"
-                                                        value="DUCKY">
-                                                    <label class="form-check-label" for="factory-1">Ducky</label>
+                                                        value="APPLE">
+                                                    <label class="form-check-label" for="factory-1">Apple</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="factory-2"
-                                                        value="FILCO">
-                                                    <label class="form-check-label" for="factory-2">Filco</label>
+                                                        value="ASUS">
+                                                    <label class="form-check-label" for="factory-2">Asus</label>
                                                 </div>
 
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="factory-3"
-                                                        value="RAZER">
-                                                    <label class="form-check-label" for="factory-3">Razer</label>
+                                                        value="LENOVO">
+                                                    <label class="form-check-label" for="factory-3">Lenovo</label>
                                                 </div>
 
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="factory-4"
-                                                        value="LOGITECH">
-                                                    <label class="form-check-label" for="factory-4">Logitech</label>
+                                                        value="DELL">
+                                                    <label class="form-check-label" for="factory-4">Dell</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="factory-5"
-                                                        value="AKKO">
-                                                    <label class="form-check-label" for="factory-5">Akko</label>
+                                                        value="LG">
+                                                    <label class="form-check-label" for="factory-5">LG</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="factory-6"
-                                                        value="FUHLEN">
-                                                    <label class="form-check-label" for="factory-6">Fuhlen</label>
+                                                        value="ACER">
+                                                    <label class="form-check-label" for="factory-6">Acer</label>
                                                 </div>
 
                                             </div>
@@ -214,7 +214,7 @@
                                                                 class="img-fluid w-100 rounded-top" alt="">
                                                         </div>
                                                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-                                                            style="top: 10px; left: 10px;">KeyBoard
+                                                            style="top: 10px; left: 10px;">Laptop
                                                         </div>
                                                         <div
                                                             class="p-4 border border-secondary border-top-0 rounded-bottom">
