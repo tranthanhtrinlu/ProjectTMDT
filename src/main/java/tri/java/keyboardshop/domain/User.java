@@ -36,6 +36,30 @@ public class User implements Serializable {
     private String avatar;
 
     private String provider;
+
+    @Column(name = "verification_code")
+    private String verificationCode;
+
+    @Column(name = "enabled")
+    private Boolean enabled;
+
+    // Getters and Setters
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @PrePersist
     public void prePersist() {
         if (this.provider == null) {

@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,7 +19,8 @@ import tri.java.keyboardshop.service.UserService;
 import tri.java.keyboardshop.service.userinfo.CustomOAuth2UserService;
 
 @Configuration
-@EnableMethodSecurity(securedEnabled = true)
+@EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
     @Bean
@@ -38,7 +40,6 @@ public class SecurityConfiguration {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder);
-        // authProvider.setHideUserNotFoundExceptions(false);
         return authProvider;
     }
 
@@ -50,9 +51,7 @@ public class SecurityConfiguration {
     @Bean
     public SpringSessionRememberMeServices rememberMeServices() {
         SpringSessionRememberMeServices rememberMeServices = new SpringSessionRememberMeServices();
-        // optionally customize
         rememberMeServices.setAlwaysRemember(true);
-
         return rememberMeServices;
     }
 
@@ -60,45 +59,51 @@ public class SecurityConfiguration {
     SecurityFilterChain filterChain(
             HttpSecurity http,
             UserService userService) throws Exception {
-        // v6. lamda
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .dispatcherTypeMatchers(DispatcherType.FORWARD,
-                                DispatcherType.INCLUDE)
+                        .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.INCLUDE)
                         .permitAll()
 
                         .requestMatchers("/", "/login", "/product/**", "/register",
-                                "/products/**",
+                                "/verify", "/products/**", "/forgot-password", "/verify-forgot-password",
                                 "/client/**", "/css/**", "/js/**", "/images/**")
                         .permitAll()
 
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 
+                        .requestMatchers("/order/**", "/product/*/comment", "/product/*/review")
+                        .authenticated()
+
                         .anyRequest().authenticated())
 
-                .oauth2Login(oauth2 -> oauth2.loginPage("/login")
-                        .defaultSuccessUrl("/", true)
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/login")
+                        .successHandler(customSuccessHandler())
                         .failureUrl("/login?error")
                         .userInfoEndpoint(user -> user
                                 .userService(new CustomOAuth2UserService(userService))))
 
-                .sessionManagement((sessionManagement) -> sessionManagement
+                .sessionManagement(sessionManagement -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                         .invalidSessionUrl("/logout?expired")
                         .maximumSessions(1)
                         .maxSessionsPreventsLogin(false))
 
-                .logout(logout -> logout.deleteCookies("JSESSIONID").invalidateHttpSession(true))
+                .logout(logout -> logout
+                        .deleteCookies("JSESSIONID")
+                        .invalidateHttpSession(true))
 
                 .rememberMe(r -> r.rememberMeServices(rememberMeServices()))
+
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
                         .failureUrl("/login?error")
                         .successHandler(customSuccessHandler())
                         .permitAll())
-                .exceptionHandling(ex -> ex.accessDeniedPage("/access-deny"));
+
+                .exceptionHandling(ex -> ex
+                        .accessDeniedPage("/access-deny"));
 
         return http.build();
     }
-
 }

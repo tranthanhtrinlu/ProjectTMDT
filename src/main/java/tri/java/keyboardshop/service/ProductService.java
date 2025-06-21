@@ -1,6 +1,7 @@
 package tri.java.keyboardshop.service;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -71,14 +72,12 @@ public class ProductService {
         return this.productRepository.findAll(combinedSpec, page);
     }
 
-    // case 6
     public Specification<Product> buildPriceSpecification(List<String> price) {
-        Specification<Product> combinedSpec = Specification.where(null); // disconjunction
+        Specification<Product> combinedSpec = Specification.where(null);
         for (String p : price) {
             double min = 0;
             double max = 0;
 
-            // Set the appropriate min and max based on the price range string
             switch (p) {
                 case "duoi-10-trieu":
                     min = 1;
@@ -116,31 +115,22 @@ public class ProductService {
     }
 
     public void handleAddProductToCart(String email, long productId, HttpSession session, long quantity) {
-
         User user = this.userService.getUserByEmail(email);
         if (user != null) {
-            // check user đã có Cart chưa ? nếu chưa -> tạo mới
             Cart cart = this.cartRepository.findByUser(user);
 
             if (cart == null) {
-                // tạo mới cart
-                Cart otherCart = new Cart();
-                otherCart.setUser(user);
-                otherCart.setSum(0);
-
-                cart = this.cartRepository.save(otherCart);
+                Cart newCart = new Cart();
+                newCart.setUser(user);
+                newCart.setSum(0);
+                cart = this.cartRepository.save(newCart);
             }
-
-            // save cart_detail
-            // tìm product by id
 
             Optional<Product> productOptional = this.productRepository.findById(productId);
             if (productOptional.isPresent()) {
                 Product realProduct = productOptional.get();
-
-                // check sản phẩm đã từng được thêm vào giỏ hàng trước đây chưa ?
                 CartDetail oldDetail = this.cartDetailRepository.findByCartAndProduct(cart, realProduct);
-                //
+
                 if (oldDetail == null) {
                     CartDetail cd = new CartDetail();
                     cd.setCart(cart);
@@ -148,19 +138,14 @@ public class ProductService {
                     cd.setPrice(realProduct.getPrice());
                     cd.setQuantity(quantity);
                     this.cartDetailRepository.save(cd);
-
-                    // update cart (sum);
-                    int s = cart.getSum() + 1;
-                    cart.setSum(s);
-                    this.cartRepository.save(cart);
-                    session.setAttribute("sum", s);
+                    cart.setSum(cart.getSum() + 1);
                 } else {
                     oldDetail.setQuantity(oldDetail.getQuantity() + quantity);
                     this.cartDetailRepository.save(oldDetail);
                 }
-
+                this.cartRepository.save(cart);
+                session.setAttribute("sum", cart.getSum());
             }
-
         }
     }
 
@@ -172,20 +157,14 @@ public class ProductService {
         Optional<CartDetail> cartDetailOptional = this.cartDetailRepository.findById(cartDetailId);
         if (cartDetailOptional.isPresent()) {
             CartDetail cartDetail = cartDetailOptional.get();
-
             Cart currentCart = cartDetail.getCart();
-            // delete cart-detail
             this.cartDetailRepository.deleteById(cartDetailId);
 
-            // update cart
             if (currentCart.getSum() > 1) {
-                // update current cart
-                int s = currentCart.getSum() - 1;
-                currentCart.setSum(s);
-                session.setAttribute("sum", s);
+                currentCart.setSum(currentCart.getSum() - 1);
                 this.cartRepository.save(currentCart);
+                session.setAttribute("sum", currentCart.getSum());
             } else {
-                // delete cart (sum = 1)
                 this.cartRepository.deleteById(currentCart.getId());
                 session.setAttribute("sum", 0);
             }
@@ -203,70 +182,60 @@ public class ProductService {
         }
     }
 
-    public void handlePlaceOrder(
-            User user, HttpSession session,
-            String receiverName, String receiverAddress, String receiverPhone,
-            String paymentMethod, String uuid) {
-
-        // step 1: get cart by user
-        Cart cart = this.cartRepository.findByUser(user);
-        if (cart != null) {
-            List<CartDetail> cartDetails = cart.getCartDetails();
-
-            if (cartDetails != null) {
-
-                // create order
-                Order order = new Order();
-                order.setUser(user);
-                order.setReceiverName(receiverName);
-                order.setReceiverAddress(receiverAddress);
-                order.setReceiverPhone(receiverPhone);
-                order.setStatus("PENDING");
-
-                order.setPaymentMethod(paymentMethod);
-                order.setPaymentStatus("PAYMENT_UNPAID");
-                order.setPaymentRef(paymentMethod.equals("COD") ? "UNKNOWN" : uuid);
-
-                double sum = 0;
-                for (CartDetail cd : cartDetails) {
-                    sum += cd.getPrice();
-                }
-                order.setTotalPrice(sum);
-                order = this.orderRepository.save(order);
-
-                // create orderDetail
-
-                for (CartDetail cd : cartDetails) {
-                    OrderDetail orderDetail = new OrderDetail();
-                    orderDetail.setOrder(order);
-                    orderDetail.setProduct(cd.getProduct());
-                    orderDetail.setPrice(cd.getPrice());
-                    orderDetail.setQuantity(cd.getQuantity());
-
-                    this.orderDetailRepository.save(orderDetail);
-                }
-
-                // step 2: delete cart_detail and cart
-                for (CartDetail cd : cartDetails) {
-                    this.cartDetailRepository.deleteById(cd.getId());
-                }
-
-                this.cartRepository.deleteById(cart.getId());
-
-                // step 3 : update session
-                session.setAttribute("sum", 0);
-            }
+    @Transactional
+    public void handlePlaceOrder(User user, HttpSession session, String receiverName, String receiverAddress,
+                                 String receiverPhone, String paymentMethod, String uuid) {
+        if (user == null) {
+            throw new IllegalStateException("Người dùng không tồn tại.");
         }
 
+        Cart cart = cartRepository.findByUser(user);
+        if (cart == null || cart.getCartDetails().isEmpty()) {
+            throw new IllegalStateException("Giỏ hàng trống.");
+        }
+
+        List<CartDetail> cartDetails = cart.getCartDetails();
+
+        // Tạo và cấu hình order
+        Order order = new Order();
+        order.setUser(user);
+        order.setReceiverName(receiverName);
+        order.setReceiverAddress(receiverAddress);
+        order.setReceiverPhone(receiverPhone);
+        order.setStatus(Order.OrderStatus.PENDING); // Sửa từ "PENDING" sang OrderStatus.PENDING
+        order.setPaymentMethod(paymentMethod);
+        order.setPaymentStatus("PAYMENT_UNPAID");
+        order.setPaymentRef(paymentMethod.equals("COD") ? "UNKNOWN" : uuid);
+
+        double totalPrice = cartDetails.stream().mapToDouble(cd -> cd.getPrice() * cd.getQuantity()).sum();
+        order.setTotalPrice(totalPrice);
+
+        // Lưu order
+        order = orderRepository.save(order);
+
+        // Tạo order details
+        for (CartDetail cd : cartDetails) {
+            OrderDetail orderDetail = new OrderDetail();
+            orderDetail.setOrder(order);
+            orderDetail.setProduct(cd.getProduct());
+            orderDetail.setPrice(cd.getPrice());
+            orderDetail.setQuantity(cd.getQuantity());
+            orderDetailRepository.save(orderDetail);
+        }
+
+        // Xóa cart và cart details
+        cartDetailRepository.deleteAll(cartDetails);
+        cartRepository.delete(cart);
+
+        // Cập nhật session
+        session.setAttribute("sum", 0);
     }
 
     public void updatePaymentStatus(String paymentRef, String paymentStatus) {
-        Optional<Order> orderOptional = this.orderRepository.findByPaymentRef(paymentRef);
-        if (orderOptional.isPresent()) {
-            // update
-            Order order = orderOptional.get();
+        Optional<Order> orderOptional = orderRepository.findByPaymentRef(paymentRef);
+        orderOptional.ifPresent(order -> {
             order.setPaymentStatus(paymentStatus);
-            this.orderRepository.save(order);
-        }
+            orderRepository.save(order);
+        });
     }
 }

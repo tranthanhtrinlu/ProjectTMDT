@@ -10,16 +10,10 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     User save(User eric);
-
     void deleteById(long id);
-
-    List<User> findOneByEmail(String email);
-
+    User findOneByEmail(String email); // Sửa từ List<User> thành User
     List<User> findAll();
-
     User findById(long id); // null
-
     boolean existsByEmail(String email);
-
-    User findByEmail(String email);
+    User findByEmail(String email); // Giữ nguyên
 }

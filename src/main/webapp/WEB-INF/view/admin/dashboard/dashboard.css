@@ -1,0 +1,19 @@
+.card-header {
+    font-weight: bold;
+}
+
+.chart-container {
+    position: relative;
+    height: 400px;
+    width: 100%;
+}
+
+.form-control {
+    margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .form-control, .btn {
+        width: 100%;
+    }
+}

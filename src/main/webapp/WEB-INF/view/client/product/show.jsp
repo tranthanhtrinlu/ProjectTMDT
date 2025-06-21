@@ -8,7 +8,7 @@
 
                 <head>
                     <meta charset="utf-8">
-                    <title> Sản Phẩm - Laptopshop</title>
+                    <title> Sản Phẩm - Keyboardshop</title>
                     <meta content="width=device-width, initial-scale=1.0" name="viewport">
                     <meta content="" name="keywords">
                     <meta content="" name="description">
@@ -81,30 +81,30 @@
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="factory-2"
-                                                        value="ASUS">
-                                                    <label class="form-check-label" for="factory-2">Asus</label>
+                                                        value="Akko">
+                                                    <label class="form-check-label" for="factory-2">Akko</label>
                                                 </div>
 
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="factory-3"
-                                                        value="LENOVO">
-                                                    <label class="form-check-label" for="factory-3">Lenovo</label>
+                                                        value="Leopold">
+                                                    <label class="form-check-label" for="factory-3">Leopold</label>
                                                 </div>
 
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="factory-4"
-                                                        value="DELL">
-                                                    <label class="form-check-label" for="factory-4">Dell</label>
+                                                        value="Ducky">
+                                                    <label class="form-check-label" for="factory-4">Ducky</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="factory-5"
-                                                        value="LG">
-                                                    <label class="form-check-label" for="factory-5">LG</label>
+                                                        value="Varmilo">
+                                                    <label class="form-check-label" for="factory-5">Varmilo</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="factory-6"
-                                                        value="ACER">
-                                                    <label class="form-check-label" for="factory-6">Acer</label>
+                                                        value="CustomBuild">
+                                                    <label class="form-check-label" for="factory-6">Custom Build (Tự build)</label>
                                                 </div>
 
                                             </div>
@@ -131,12 +131,12 @@
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="target-4"
                                                         value="MONG-NHE">
-                                                    <label class="form-check-label" for="target-4">Mỏng nhẹ</label>
+                                                    <label class="form-check-label" for="target-4">Build custom</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="checkbox" id="target-5"
                                                         value="DOANH-NHAN">
-                                                    <label class="form-check-label" for="target-5">Doanh nhân</label>
+                                                    <label class="form-check-label" for="target-5">Chơi keycap / DIY</label>
                                                 </div>
 
 

@@ -1,14 +1,21 @@
 package tri.java.keyboardshop.domain;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "orders")
 public class Order implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    public enum OrderStatus {
+        PENDING, SHIPPING, COMPLETE, CANCEL
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,13 +29,27 @@ public class Order implements Serializable {
 
     private String receiverPhone;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private OrderStatus status = OrderStatus.PENDING;
 
     private String paymentRef;
 
     private String paymentStatus;
 
     private String paymentMethod;
+
+    @Column(name = "created_at", updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    public LocalDateTime getCreatedDate() {
+        return createdAt;
+    }
+
+    public void setCreatedDate(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public String getPaymentRef() {
         return paymentRef;
@@ -102,13 +123,28 @@ public class Order implements Serializable {
         this.receiverPhone = receiverPhone;
     }
 
-    public String getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+//    public String getStatus() {
+//        return status;
+//    }
+//
+//    public void setStatus(String status) {
+//        this.status = status;
+//    }
 
     public User getUser() {
         return user;

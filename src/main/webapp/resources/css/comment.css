@@ -1,0 +1,10 @@
+.card-body {
+    background-color: #fdfdfd;
+    padding: 1rem;
+}
+.card-body textarea {
+    resize: vertical;
+}
+.border-start {
+    border-left: 3px solid #007bff;
+}

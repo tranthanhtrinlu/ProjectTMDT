@@ -25,7 +25,7 @@
                 ${eric}
             </h1>
             <h2>
-                ${hoidanit}
+                ${keyboardstore}
             </h2>
             <button class="btn btn-warning">Submit</button>
         </body>

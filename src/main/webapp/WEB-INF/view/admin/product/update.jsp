@@ -8,9 +8,9 @@
                 <meta charset="utf-8" />
                 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-                <meta name="description" content="Hỏi Dân IT - Dự án laptopshop" />
-                <meta name="author" content="Hỏi Dân IT" />
-                <title>Update Product - Hỏi Dân IT</title>
+                <meta name="description" content="Key Board Store - Dự án Keyboardshop" />
+                <meta name="author" content="Key Board Store" />
+                <title>Update Product - Key Board Store</title>
                 <link href="/css/styles.css" rel="stylesheet" />
 
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -116,30 +116,30 @@
                                                 <div class="mb-3 col-12 col-md-6">
                                                     <label class="form-label">Factory:</label>
                                                     <form:select class="form-select" path="factory">
-                                                        <form:option value="APPLE">Apple (MacBook)</form:option>
-                                                        <form:option value="ASUS">Asus</form:option>
-                                                        <form:option value="LENOVO">Lenovo</form:option>
-                                                        <form:option value="DELL">Dell</form:option>
-                                                        <form:option value="LG">LG</form:option>
-                                                        <form:option value="ACER">Acer</form:option>
+                                                        <form:option value="APPLE">Logitech</form:option>
+                                                        <form:option value="Akko">Akko</form:option>
+                                                        <form:option value="Leopold">Leopold</form:option>
+                                                        <form:option value="Ducky">Ducky</form:option>
+                                                        <form:option value="Varmilo">Varmilo</form:option>
+                                                        <form:option value="CustomBuild">Custom Build (Tự build)</form:option>
                                                     </form:select>
                                                 </div>
                                                 <div class="mb-3 col-12 col-md-6">
                                                     <label class="form-label">Target:</label>
                                                     <form:select class="form-select" path="target">
                                                         <form:option value="GAMING">Gaming</form:option>
-                                                        <form:option value="SINHVIEN-VANPHONG">Sinh viên - Văn phòng
+                                                        <form:option value="SINHVIEN-VANPHONG">Văn phòng yên tĩnh
                                                         </form:option>
-                                                        <form:option value="THIET-KE-DO-HOA">Thiết kế đồ họa
+                                                        <form:option value="THIET-KE-DO-HOA">Gõ cảm giác tốt
                                                         </form:option>
-                                                        <form:option value="MONG-NHE">Mỏng nhẹ</form:option>
-                                                        <form:option value="DOANH-NHAN">Doanh nhân</form:option>
+                                                        <form:option value="MONG-NHE">Build custom</form:option>
+                                                        <form:option value="DOANH-NHAN">Chơi keycap / DIY</form:option>
                                                     </form:select>
                                                 </div>
                                                 <div class="mb-3 col-12 col-md-6">
                                                     <label for="avatarFile" class="form-label">Image:</label>
                                                     <input class="form-control" type="file" id="avatarFile"
-                                                        accept=".png, .jpg, .jpeg" name="hoidanitFile" />
+                                                        accept=".png, .jpg, .jpeg" name="keyboardstoreFile" />
                                                 </div>
                                                 <div class="col-12 mb-3">
                                                     <img style="max-height: 250px; display: none;" alt="avatar preview"

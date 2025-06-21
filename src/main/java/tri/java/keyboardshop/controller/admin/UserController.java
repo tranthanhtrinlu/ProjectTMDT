@@ -39,7 +39,7 @@ public class UserController {
         System.out.println(arrUsers);
 
         model.addAttribute("eric", "test");
-        model.addAttribute("hoidanit", "from controller with model");
+        model.addAttribute("keyboardstore", "from controller with model");
         return "hello";
     }
 
@@ -85,9 +85,9 @@ public class UserController {
 
     @PostMapping(value = "/admin/user/create")
     public String createUserPage(Model model,
-            @ModelAttribute("newUser") @Valid User hoidanit,
+            @ModelAttribute("newUser") @Valid User keyboardstore,
             BindingResult newUserBindingResult,
-            @RequestParam("hoidanitFile") MultipartFile file) {
+            @RequestParam("keyboardstoreFile") MultipartFile file) {
 
         // List<FieldError> errors = newUserBindingResult.getFieldErrors();
         // for (FieldError error : errors) {
@@ -102,13 +102,13 @@ public class UserController {
 
         //
         String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
-        String hashPassword = this.passwordEncoder.encode(hoidanit.getPassword());
+        String hashPassword = this.passwordEncoder.encode(keyboardstore.getPassword());
 
-        hoidanit.setAvatar(avatar);
-        hoidanit.setPassword(hashPassword);
-        hoidanit.setRole(this.userService.getRoleByName(hoidanit.getRole().getName()));
+        keyboardstore.setAvatar(avatar);
+        keyboardstore.setPassword(hashPassword);
+        keyboardstore.setRole(this.userService.getRoleByName(keyboardstore.getRole().getName()));
         // save
-        this.userService.handleSaveUser(hoidanit);
+        this.userService.handleSaveUser(keyboardstore);
         return "redirect:/admin/user";
     }
 
@@ -120,12 +120,12 @@ public class UserController {
     }
 
     @PostMapping("/admin/user/update")
-    public String postUpdateUser(Model model, @ModelAttribute("newUser") User hoidanit) {
-        User currentUser = this.userService.getUserById(hoidanit.getId());
+    public String postUpdateUser(Model model, @ModelAttribute("newUser") User keyboardstore) {
+        User currentUser = this.userService.getUserById(keyboardstore.getId());
         if (currentUser != null) {
-            currentUser.setAddress(hoidanit.getAddress());
-            currentUser.setFullName(hoidanit.getFullName());
-            currentUser.setPhone(hoidanit.getPhone());
+            currentUser.setAddress(keyboardstore.getAddress());
+            currentUser.setFullName(keyboardstore.getFullName());
+            currentUser.setPhone(keyboardstore.getPhone());
 
             // bug here
             this.userService.handleSaveUser(currentUser);
