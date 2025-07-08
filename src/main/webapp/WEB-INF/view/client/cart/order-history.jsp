@@ -1,16 +1,27 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
+<<<<<<< Updated upstream
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+=======
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+>>>>>>> Stashed changes
 
             <!DOCTYPE html>
             <html lang="en">
 
+<<<<<<< Updated upstream
             <head>
                 <meta charset="utf-8">
                 <title> Lịch sử mua hàng - KeyBoardShop</title>
                 <meta content="width=device-width, initial-scale=1.0" name="viewport">
                 <meta content="" name="keywords">
                 <meta content="" name="description">
+=======
+<head>
+    <meta charset="utf-8">
+    <title>Lịch sử mua hàng - Keyboardshop</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+>>>>>>> Stashed changes
 
                 <!-- Google Web Fonts -->
                 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,8 +40,19 @@
                 <link href="/client/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
 
+<<<<<<< Updated upstream
                 <!-- Customized Bootstrap Stylesheet -->
                 <link href="/client/css/bootstrap.min.css" rel="stylesheet">
+=======
+    <!-- Template Stylesheet -->
+    <link href="/client/css/style.css" rel="stylesheet">
+    <link href="/css/order-history.css" rel="stylesheet">
+    
+    <!-- Meta CSRF -->
+    <meta name="_csrf" content="${_csrf.token}" />
+    <meta name="_csrf_header" content="${_csrf.headerName}" />
+</head>
+>>>>>>> Stashed changes
 
                 <!-- Template Stylesheet -->
                 <link href="/client/css/style.css" rel="stylesheet">
@@ -45,6 +67,7 @@
                 </div>
                 <!-- Spinner End -->
 
+<<<<<<< Updated upstream
                 <jsp:include page="../layout/header.jsp" />
 
                 <!-- Cart Page Start -->
@@ -127,6 +150,116 @@
                                                     </p>
                                                 </td>
                                                 <td></td>
+=======
+<!-- Order History Page Start -->
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="mb-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Lịch sử mua hàng</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">
+                <i class="fas fa-history text-primary"></i> 
+                Lịch sử mua hàng
+            </h2>
+            <a href="/products" class="btn btn-primary">
+                <i class="fas fa-shopping-cart"></i> Mua sắm ngay
+            </a>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Đang tải lịch sử đơn hàng...</p>
+        </div>
+        
+        <!-- Statistics Cards -->
+        <div id="statsSection" style="display: none;" class="stats-cards mb-4">
+            <div class="stat-card">
+                <div class="stat-number" id="totalOrders">0</div>
+                <div class="stat-label">Tổng đơn hàng</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="pendingOrders">0</div>
+                <div class="stat-label">Đang chờ</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="completeOrders">0</div>
+                <div class="stat-label">Hoàn thành</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalSpent">0</div>
+                <div class="stat-label">Tổng chi tiêu (VNĐ)</div>
+            </div>
+        </div>
+        
+        <!-- Filters -->
+        <div id="filtersSection" style="display: none;" class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label class="form-label">Trạng thái:</label>
+                        <select class="form-select" id="statusFilter">
+                            <option value="">Tất cả</option>
+                            <option value="PENDING">Đang chờ</option>
+                            <option value="PROCESSING">Đang xử lý</option>
+                            <option value="SHIPPED">Đã giao</option>
+                            <option value="COMPLETE">Hoàn thành</option>
+                            <option value="CANCEL">Đã hủy</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Sắp xếp:</label>
+                        <select class="form-select" id="sortFilter">
+                            <option value="newest">Mới nhất</option>
+                            <option value="oldest">Cũ nhất</option>
+                            <option value="price-high">Giá cao</option>
+                            <option value="price-low">Giá thấp</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Tìm kiếm:</label>
+                        <input type="text" class="form-control" id="searchInput" placeholder="Tìm theo tên sản phẩm hoặc ID đơn hàng...">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Hiển thị:</label>
+                        <select class="form-select" id="pageSizeSelect">
+                            <option value="5">5 đơn</option>
+                            <option value="10">10 đơn</option>
+                            <option value="15">15 đơn</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Orders Container -->
+        <div id="ordersContainer"></div>
+        
+        <!-- Pagination -->
+        <div id="paginationContainer" class="mt-4"></div>
+        
+        <!-- Empty State -->
+        <div id="emptyState" style="display: none;" class="text-center py-5">
+            <i class="fas fa-shopping-bag text-muted fa-3x mb-3"></i>
+            <h4 class="text-muted">Chưa có đơn hàng nào</h4>
+            <p class="text-muted">Bạn chưa có đơn hàng nào trong lịch sử. Hãy bắt đầu mua sắm ngay!</p>
+            <a href="/products" class="btn btn-primary btn-lg">
+                <i class="fas fa-shopping-cart"></i> Mua sắm ngay
+            </a>
+        </div>
+    </div>
+</div>
+<!-- Order History Page End -->
+>>>>>>> Stashed changes
 
                                             </tr>
                                         </c:forEach>
@@ -140,6 +273,13 @@
                 </div>
                 <!-- Cart Page End -->
 
+<<<<<<< Updated upstream
+=======
+<!-- Template Javascript -->
+<script src="/client/js/main.js"></script>
+<script src="/js/order-history-ajax.js"></script>
+</body>
+>>>>>>> Stashed changes
 
                 <jsp:include page="../layout/footer.jsp" />
 

@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -20,6 +21,26 @@ import jakarta.validation.constraints.NotNull;
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public enum ProductType {
+        KEYBOARD("Bàn phím"),
+        MOUSE("Chuột"),
+        KIT("KIT"),
+        KEYCAP("Keycap"),
+        MOUSEPAD("Lót chuột"),
+        SWITCH("Switch"),
+        OTHER("Khác");
+        
+        private final String displayName;
+        
+        ProductType(String displayName) {
+            this.displayName = displayName;
+        }
+        
+        public String getDisplayName() {
+            return displayName;
+        }
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,6 +72,21 @@ public class Product implements Serializable {
     private long sold;
     private String factory;
     private String target;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    private ProductType type = ProductType.OTHER;
+    
+    @Min(value = 0, message = "Giảm giá không được âm")
+    @Max(value = 100, message = "Giảm giá không được vượt quá 100%")
+    private int discount = 0;
+    
+    // Transient fields for rating display
+    @Transient
+    private Double averageRating = 0.0;
+    
+    @Transient 
+    private Integer totalReviews = 0;
 
     // Thêm thuộc tính category
     @ManyToOne
@@ -136,6 +172,56 @@ public class Product implements Serializable {
     public void setTarget(String target) {
         this.target = target;
     }
+    
+    public ProductType getType() {
+        return type;
+    }
+
+    public void setType(ProductType type) {
+        this.type = type != null ? type : ProductType.OTHER;
+    }
+    
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
+    
+    public double getDiscountedPrice() {
+        if (discount <= 0) {
+            return price;
+        }
+        return price * (100 - discount) / 100.0;
+    }
+    
+    public boolean hasDiscount() {
+        return discount > 0;
+    }
+    
+    public double getDiscountAmount() {
+        if (discount <= 0) {
+            return 0;
+        }
+        return price * discount / 100.0;
+    }
+    
+    public Double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(Double averageRating) {
+        this.averageRating = averageRating != null ? averageRating : 0.0;
+    }
+
+    public Integer getTotalReviews() {
+        return totalReviews;
+    }
+
+    public void setTotalReviews(Integer totalReviews) {
+        this.totalReviews = totalReviews != null ? totalReviews : 0;
+    }
 
     // Getter và Setter cho category
     public Category getCategory() {
@@ -148,9 +234,10 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "Product [id=" + id + ", name=" + name + ", price=" + price + ", image=" + image + ", detailDesc="
+        return "Product [id=" + id + ", name=" + name + ", price=" + price + ", discount=" + discount + 
+               ", discountedPrice=" + getDiscountedPrice() + ", image=" + image + ", detailDesc="
                 + detailDesc + ", shortDesc=" + shortDesc + ", quantity=" + quantity + ", sold=" + sold + ", factory="
-                + factory + ", target=" + target + "]";
+                + factory + ", target=" + target + ", type=" + type + "]";
     }
 
 }

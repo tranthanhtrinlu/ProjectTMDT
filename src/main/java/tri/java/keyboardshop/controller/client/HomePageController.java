@@ -12,10 +12,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+<<<<<<< Updated upstream
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+=======
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+>>>>>>> Stashed changes
 import tri.java.keyboardshop.domain.Order;
 import tri.java.keyboardshop.domain.Product;
 import tri.java.keyboardshop.domain.User;
@@ -45,12 +50,17 @@ public class HomePageController {
 
     @GetMapping("/")
     public String getHomePage(Model model) {
-        // List<Product> products = this.productService.fetchProducts();
-        Pageable pageable = PageRequest.of(0, 10);
-        Page<Product> prs = this.productService.fetchProducts(pageable);
-        List<Product> products = prs.getContent();
-
-        model.addAttribute("products", products);
+        // Lấy 4 sản phẩm bán chạy nhất
+        List<Product> bestSellingProducts = this.productService.getBestSellingProducts(4);
+        this.productService.enrichProductsWithRating(bestSellingProducts);
+        
+        // Lấy 4 sản phẩm mới nhất
+        List<Product> newestProducts = this.productService.getNewestProducts(4);
+        this.productService.enrichProductsWithRating(newestProducts);
+        
+        model.addAttribute("bestSellingProducts", bestSellingProducts);
+        model.addAttribute("newestProducts", newestProducts);
+        
         return "client/homepage/show";
     }
     @GetMapping("/show")
@@ -60,6 +70,41 @@ public class HomePageController {
         List<Product> products = prs.getContent();
         model.addAttribute("products", products);
         return "client/product/show"; // Sử dụng cùng view với trang chủ nếu muốn
+    }
+
+    @GetMapping("/about")
+    public String getAboutPage(Model model) {
+        return "client/about/show";
+    }
+
+    @GetMapping("/contact")
+    public String getContactPage(Model model) {
+        return "client/contact/show";
+    }
+
+    @PostMapping("/contact")
+    public String handleContactForm(
+            @RequestParam("name") String name,
+            @RequestParam("email") String email,
+            @RequestParam("phone") String phone,
+            @RequestParam("subject") String subject,
+            @RequestParam("message") String message,
+            RedirectAttributes redirectAttributes) {
+        
+        // Trong thực tế, bạn sẽ lưu thông tin liên hệ vào database
+        // hoặc gửi email thông báo
+        
+        System.out.println("Contact Form Submission:");
+        System.out.println("Name: " + name);
+        System.out.println("Email: " + email);
+        System.out.println("Phone: " + phone);
+        System.out.println("Subject: " + subject);
+        System.out.println("Message: " + message);
+        
+        redirectAttributes.addFlashAttribute("successMessage", 
+            "Cảm ơn bạn đã liên hệ với chúng tôi! Chúng tôi sẽ phản hồi trong thời gian sớm nhất.");
+        
+        return "redirect:/contact";
     }
 
     @GetMapping("/register")

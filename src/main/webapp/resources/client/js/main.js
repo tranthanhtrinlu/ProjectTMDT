@@ -326,7 +326,7 @@
 
     //////////////////////////
     //handle add to cart with ajax
-    $('.btnAddToCartHomepage').click(function (event) {
+    $('.btnAddToCartHomepage, .btnAddToCart').click(function (event) {
         event.preventDefault();
 
         if (!isLogin()) {
@@ -353,21 +353,43 @@
             contentType: "application/json",
 
             success: function (response) {
-                const sum = +response;
-                //update cart
-                $("#sumCart").text(sum)
-                //show message
-                $.toast({
-                    heading: 'Giỏ hàng',
-                    text: 'Thêm sản phẩm vào giỏ hàng thành công',
-                    position: 'top-right',
-
-                })
-
+                if (response.success) {
+                    const sum = +response.sum;
+                    //update cart
+                    $("#sumCart").text(sum)
+                    //show message
+                    $.toast({
+                        heading: 'Thành công',
+                        text: response.message,
+                        position: 'top-right',
+                        icon: 'success'
+                    })
+                } else {
+                    $.toast({
+                        heading: 'Lỗi',
+                        text: response.message,
+                        position: 'top-right',
+                        icon: 'error'
+                    })
+                }
             },
-            error: function (response) {
-                alert("có lỗi xảy ra, check code đi ba :v")
-                console.log("error: ", response);
+            error: function (xhr) {
+                const response = xhr.responseJSON;
+                if (response && response.message) {
+                    $.toast({
+                        heading: 'Lỗi',
+                        text: response.message,
+                        position: 'top-right',
+                        icon: 'error'
+                    })
+                } else {
+                    $.toast({
+                        heading: 'Lỗi',
+                        text: 'Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng',
+                        position: 'top-right',
+                        icon: 'error'
+                    })
+                }
             }
 
         });
@@ -399,25 +421,146 @@
             contentType: "application/json",
 
             success: function (response) {
-                const sum = +response;
-                //update cart
-                $("#sumCart").text(sum)
-                //show message
-                $.toast({
-                    heading: 'Giỏ hàng',
-                    text: 'Thêm sản phẩm vào giỏ hàng thành công',
-                    position: 'top-right',
-
-                })
-
+                if (response.success) {
+                    const sum = +response.sum;
+                    //update cart
+                    $("#sumCart").text(sum)
+                    //show message
+                    $.toast({
+                        heading: 'Thành công',
+                        text: response.message,
+                        position: 'top-right',
+                        icon: 'success'
+                    })
+                } else {
+                    $.toast({
+                        heading: 'Lỗi',
+                        text: response.message,
+                        position: 'top-right',
+                        icon: 'error'
+                    })
+                }
             },
-            error: function (response) {
-                alert("có lỗi xảy ra, check code đi ba :v")
-                console.log("error: ", response);
+            error: function (xhr) {
+                const response = xhr.responseJSON;
+                if (response && response.message) {
+                    $.toast({
+                        heading: 'Lỗi',
+                        text: response.message,
+                        position: 'top-right',
+                        icon: 'error'
+                    })
+                } else {
+                    $.toast({
+                        heading: 'Lỗi',
+                        text: 'Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng',
+                        position: 'top-right',
+                        icon: 'error'
+                    })
+                }
             }
 
         });
     });
+
+    // Handle remove product from cart
+    $('.btnRemoveCartProduct').click(function (event) {
+        event.preventDefault();
+        
+        const cartDetailId = $(this).attr('data-cart-detail-id');
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+        const row = $(this).closest('tr');
+        
+        // Confirm dialog
+        if (!confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')) {
+            return;
+        }
+        
+        $.ajax({
+            url: `${window.location.origin}/api/remove-cart-product/${cartDetailId}`,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            type: "DELETE",
+            
+            success: function (response) {
+                if (response.success) {
+                    const sum = +response.sum;
+                    
+                    // Update cart count in header
+                    $("#sumCart").text(sum);
+                    
+                    // Remove the row from table
+                    row.fadeOut(300, function() {
+                        $(this).remove();
+                        
+                        // Check if cart is empty
+                        const remainingRows = $('tbody tr').not('.cart-empty-row').length;
+                        if (remainingRows === 0) {
+                            $('tbody').html('<tr class="cart-empty-row"><td colspan="6">Không có sản phẩm trong giỏ hàng</td></tr>');
+                            // Hide checkout section
+                            $('.justify-content-start').hide();
+                        } else {
+                            // Recalculate total price
+                            updateCartTotal();
+                        }
+                    });
+                    
+                    // Show success message
+                    $.toast({
+                        heading: 'Thành công',
+                        text: response.message,
+                        position: 'top-right',
+                        icon: 'success'
+                    });
+                } else {
+                    $.toast({
+                        heading: 'Lỗi',
+                        text: response.message,
+                        position: 'top-right',
+                        icon: 'error'
+                    });
+                }
+            },
+            error: function (xhr) {
+                const response = xhr.responseJSON;
+                if (response && response.message) {
+                    $.toast({
+                        heading: 'Lỗi',
+                        text: response.message,
+                        position: 'top-right',
+                        icon: 'error'
+                    });
+                } else {
+                    $.toast({
+                        heading: 'Lỗi',
+                        text: 'Có lỗi xảy ra khi xóa sản phẩm khỏi giỏ hàng',
+                        position: 'top-right',
+                        icon: 'error'
+                    });
+                }
+            }
+        });
+    });
+
+    // Function to update cart total
+    function updateCartTotal() {
+        let total = 0;
+        $('tbody tr').not('.cart-empty-row').each(function() {
+            const priceText = $(this).find('td:nth-child(5) p').text();
+            const price = parseFloat(priceText.replace(/[^\d]/g, ''));
+            if (!isNaN(price)) {
+                total += price;
+            }
+        });
+        
+        // Update total price displays
+        $('[data-cart-total-price]').each(function() {
+            $(this).text(formatCurrency(total.toFixed(0)) + ' đ');
+            $(this).attr('data-cart-total-price', total);
+        });
+    }
 
     function isLogin() {
         const navElement = $("#navbarCollapse");

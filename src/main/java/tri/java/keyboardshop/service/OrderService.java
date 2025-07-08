@@ -60,4 +60,46 @@ public class OrderService {
         return this.orderRepository.findByUser(user);
     }
 
+<<<<<<< Updated upstream
 }
+=======
+    // Phân trang cho đơn hàng theo user
+    public Page<Order> fetchOrdersByUser(User user, Pageable pageable) {
+        return this.orderRepository.findByUser(user, pageable);
+    }
+    
+    // Phân trang với filter theo status
+    public Page<Order> fetchOrdersByUserAndStatus(User user, Order.OrderStatus status, Pageable pageable) {
+        return this.orderRepository.findByUserAndStatus(user, status, pageable);
+    }
+
+    @Transactional
+    public void cancelOrder(Long orderId, User user) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Đơn hàng không tồn tại"));
+        if (order.getUser().getId() != user.getId()) { // Sửa từ equals() thành ==
+            throw new IllegalStateException("Bạn không có quyền hủy đơn hàng này");
+        }
+        if (!OrderStatus.PENDING.equals(order.getStatus())) {
+            throw new IllegalStateException("Chỉ có thể hủy đơn hàng ở trạng thái PENDING");
+        }
+        order.setStatus(OrderStatus.CANCEL);
+        orderRepository.save(order);
+    }
+
+    @Transactional
+    public void confirmOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Đơn hàng không tồn tại"));
+        if (order.getStatus() != OrderStatus.PENDING) {
+            throw new IllegalStateException("Chỉ có thể xác nhận đơn hàng ở trạng thái PENDING");
+        }
+        order.setStatus(OrderStatus.CONFIRM); // Xác nhận đơn hàng
+        orderRepository.save(order);
+    }
+
+    public boolean hasUserPurchased(Long userId, Long productId) {
+        return orderRepository.existsByUserIdAndProductIdAndStatus(userId, productId, OrderStatus.COMPLETE);
+    }
+}
+>>>>>>> Stashed changes

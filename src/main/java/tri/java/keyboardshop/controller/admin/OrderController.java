@@ -1,6 +1,23 @@
 package tri.java.keyboardshop.controller.admin;
 
+<<<<<<< Updated upstream:src/main/java/tri/java/keyboardshop/controller/admin/OrderController.java
+=======
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import tri.java.keyboardshop.domain.Order;
+import tri.java.keyboardshop.domain.Order_;
+import tri.java.keyboardshop.service.OrderService;
+
+import java.util.HashMap;
+>>>>>>> Stashed changes:src/main/java/tri/java/keyboardshop/controller/admin/AdminOrderController.java
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -62,6 +79,7 @@ public class OrderController {
         return "admin/order/detail";
     }
 
+<<<<<<< Updated upstream:src/main/java/tri/java/keyboardshop/controller/admin/OrderController.java
     @GetMapping("/admin/order/delete/{id}")
     public String getDeleteOrderPage(Model model, @PathVariable long id) {
         model.addAttribute("id", id);
@@ -88,3 +106,44 @@ public class OrderController {
         return "redirect:/admin/order";
     }
 }
+=======
+    @PostMapping("/confirm/{id}")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> confirmOrder(@PathVariable("id") Long orderId) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            this.orderService.confirmOrder(orderId);
+            response.put("success", true);
+            response.put("message", "Đơn hàng đã được xác nhận thành công");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "Có lỗi xảy ra: " + e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+    @PostMapping("/update-status")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> updateOrderStatusAjax(@RequestParam("orderId") Long orderId, 
+                                                                     @RequestParam("status") String status) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Order order = this.orderService.fetchOrderById(orderId)
+                    .orElseThrow(() -> new IllegalArgumentException("Đơn hàng không tồn tại"));
+            
+            Order.OrderStatus newStatus = Order.OrderStatus.valueOf(status);
+            order.setStatus(newStatus);
+            this.orderService.updateOrder(order);
+            
+            response.put("success", true);
+            response.put("message", "Cập nhật trạng thái đơn hàng thành công");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "Có lỗi xảy ra: " + e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+}
+>>>>>>> Stashed changes:src/main/java/tri/java/keyboardshop/controller/admin/AdminOrderController.java

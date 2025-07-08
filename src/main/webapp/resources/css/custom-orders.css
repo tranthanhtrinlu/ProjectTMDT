@@ -1,0 +1,207 @@
+.order-card {
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    transition: all 0.3s;
+}
+
+.order-card:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.order-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 10px 10px 0 0;
+    padding: 20px;
+}
+
+.status-badge {
+    font-size: 0.9em;
+}
+
+.order-details {
+    padding: 20px;
+}
+
+.component-list {
+    background: #f8f9fa;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+.filter-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 1px solid #dee2e6;
+}
+
+.btn-group-actions {
+    gap: 8px;
+}
+
+.order-id {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    color: #495057;
+}
+
+.price-comparison {
+    font-size: 0.85em;
+    opacity: 0.8;
+}
+
+.service-badge {
+    font-size: 0.75em;
+    margin: 2px;
+}
+
+.status-timeline {
+    position: relative;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(10px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+.order-card.processing {
+    border-left: 4px solid #17a2b8;
+}
+
+.order-card.pending {
+    border-left: 4px solid #ffc107;
+}
+
+.order-card.ready {
+    border-left: 4px solid #28a745;
+}
+
+.order-card.shipped {
+    border-left: 4px solid #6f42c1;
+}
+
+.order-card.cancelled {
+    border-left: 4px solid #dc3545;
+    opacity: 0.7;
+}
+
+/* Pagination container */
+#paginationContainer {
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+}
+
+#paginationContainer nav {
+    display: inline-block !important;
+    width: auto !important;
+}
+
+/* Pagination Styles */
+.pagination {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    gap: 5px !important;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.pagination .page-item {
+    display: inline-block !important;
+    margin: 0 2px !important;
+    list-style: none !important;
+}
+
+.pagination .page-link {
+    display: inline-block !important;
+    padding: 8px 12px !important;
+    border: 1px solid #dee2e6 !important;
+    background-color: #fff !important;
+    color: #007bff !important;
+    text-decoration: none !important;
+    border-radius: 4px !important;
+    transition: all 0.2s !important;
+    float: none !important;
+}
+
+.pagination .page-link:hover {
+    background-color: #e9ecef !important;
+    border-color: #dee2e6 !important;
+    color: #0056b3 !important;
+    text-decoration: none !important;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+    color: white !important;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #6c757d !important;
+    pointer-events: none !important;
+    background-color: #fff !important;
+    border-color: #dee2e6 !important;
+}
+
+/* Responsive pagination */
+@media (max-width: 768px) {
+    .pagination {
+        flex-wrap: wrap !important;
+        gap: 3px !important;
+    }
+    
+    .pagination .page-link {
+        padding: 6px 10px !important;
+        font-size: 14px !important;
+    }
+}
+
+/* Loading spinner */
+#loadingSpinner {
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Filters section */
+#filtersSection {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+}
+
+/* Order card improvements */
+.order-card .card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white;
+    border-radius: 8px 8px 0 0 !important;
+}
+
+.order-card .component-list {
+    background: #f8f9fa;
+    border-radius: 6px;
+    padding: 12px;
+    margin: 8px 0;
+}
+
+.order-card .btn {
+    margin: 2px;
+} 

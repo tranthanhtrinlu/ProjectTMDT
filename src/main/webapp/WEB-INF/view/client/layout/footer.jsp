@@ -23,21 +23,35 @@
                     <div class="col-lg-3 col-md-6">
                         <div class="d-flex flex-column text-start footer-item">
                             <h4 class="text-light mb-3">Shop Info</h4>
-                            <a class="btn-link" href="#">About Us</a>
-
+                            <a class="btn-link" href="/about">Giới thiệu</a>
+                            <a class="btn-link" href="/contact">Liên hệ</a>
+                            <a class="btn-link" href="/products">Sản phẩm</a>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                         <div class="d-flex flex-column text-start footer-item">
                             <h4 class="text-light mb-3">Account</h4>
-                            <a class="btn-link" href="#">My Account</a>
+                            <c:if test="${not empty pageContext.request.userPrincipal}">
+                                <a class="btn-link" href="/profile">Tài khoản của tôi</a>
+                                <a class="btn-link" href="/order-history">Lịch sử đơn hàng</a>
+                            </c:if>
+                            <c:if test="${empty pageContext.request.userPrincipal}">
+                                <a class="btn-link" href="/login">Đăng nhập</a>
+                                <a class="btn-link" href="/register">Đăng ký</a>
+                            </c:if>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                         <div class="footer-item">
                             <h4 class="text-light mb-3">Contact</h4>
+<<<<<<< Updated upstream
                             <p>Author:thanhtri</p>
                             <p>Website: <a href="" target="_blank"> thanhtri</a></p>
+=======
+                            <p><i class="fas fa-map-marker-alt me-2"></i>123 Đường ABC, Quận 1, TP.HCM</p>
+                            <p><i class="fas fa-phone me-2"></i>1900 1234</p>
+                            <p><i class="fas fa-envelope me-2"></i>info@keyboardshop.vn</p>
+>>>>>>> Stashed changes
                         </div>
                     </div>
                 </div>
@@ -55,8 +69,8 @@
                             reserved.</span>
                     </div>
                     <div class="col-md-6 my-auto text-center text-md-end text-white">
-                        <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
-                        <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
+                        <!--/*** This template is free as long as you keep the below author's credit link/attribution link/backlink. ***/-->
+                        <!--/*** If you'd like to use the template without the below author's credit link/attribution link/backlink, ***/-->
                         <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
                         Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a> Distributed
                         By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>

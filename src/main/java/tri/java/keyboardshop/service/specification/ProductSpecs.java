@@ -50,4 +50,14 @@ public class ProductSpecs {
                 root.get(Product_.PRICE), min, max);
     }
 
+    // case7 - Filter by product type
+    public static Specification<Product> matchProductType(Product.ProductType type) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(Product_.TYPE), type);
+    }
+
+    // case8 - Filter by multiple product types
+    public static Specification<Product> matchListProductType(List<Product.ProductType> types) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.in(root.get(Product_.TYPE)).value(types);
+    }
+
 }
