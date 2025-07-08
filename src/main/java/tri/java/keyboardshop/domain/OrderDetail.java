@@ -20,17 +20,20 @@ public class OrderDetail implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(nullable = false)
     private long quantity;
+    
+    @Column(nullable = false)
     private double price;
 
     // order_id: long
-    @ManyToOne
-    @JoinColumn(name = "order_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
     // product_id: long
-    @ManyToOne
-    @JoinColumn(name = "product_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     public long getId() {
@@ -73,4 +76,8 @@ public class OrderDetail implements Serializable {
         this.product = product;
     }
 
+    @Override
+    public String toString() {
+        return "OrderDetail [id=" + id + ", quantity=" + quantity + ", price=" + price + "]";
+    }
 }

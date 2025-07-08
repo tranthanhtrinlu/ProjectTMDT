@@ -1,8 +1,9 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-        <!DOCTYPE html>
-        <html lang="en">
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+<<<<<<< Updated upstream
         <head>
             <meta charset="utf-8" />
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -13,99 +14,510 @@
             <link href="/css/styles.css" rel="stylesheet" />
             <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         </head>
+=======
+<c:set var="pageTitle" value="Quản lý người dùng" />
+<jsp:include page="../layout/header.jsp" />
+>>>>>>> Stashed changes
 
-        <body class="sb-nav-fixed">
-            <jsp:include page="../layout/header.jsp" />
-            <div id="layoutSidenav">
-                <jsp:include page="../layout/sidebar.jsp" />
-                <div id="layoutSidenav_content">
-                    <main>
-                        <div class="container-fluid px-4">
-                            <h1 class="mt-4">Manage Users</h1>
-                            <ol class="breadcrumb mb-4">
-                                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Users</li>
-                            </ol>
-                            <div class="mt-5">
-                                <div class="row">
-                                    <div class="col-12 mx-auto">
-                                        <div class="d-flex justify-content-between">
-                                            <h3>Table users</h3>
-                                            <a href="/admin/user/create" class="btn btn-primary">Create a user</a>
-                                        </div>
+<!-- Header Actions -->
+<div class="flex justify-between items-center mb-6">
+    <div>
+        <h1 class="text-2xl font-bold text-gray-900">Quản lý người dùng</h1>
+        <p class="text-gray-600">Quản lý toàn bộ người dùng trong hệ thống</p>
+    </div>
+    <a href="/admin/user/create" class="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg flex items-center">
+        <i class="fas fa-plus mr-2"></i>
+        Thêm người dùng
+    </a>
+</div>
 
-                                        <hr />
-                                        <table class=" table table-bordered table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Email</th>
-                                                    <th>Full Name</th>
-                                                    <th>Role</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <c:forEach var="user" items="${users1}">
-
-                                                    <tr>
-                                                        <th>${user.id}</th>
-                                                        <td>${user.email}</td>
-                                                        <td>${user.fullName}</td>
-                                                        <td>${user.role.name}</td>
-                                                        <td>
-                                                            <a href="/admin/user/${user.id}"
-                                                                class="btn btn-success">View</a>
-                                                            <a href="/admin/user/update/${user.id}"
-                                                                class="btn btn-warning  mx-2">Update</a>
-                                                            <a href="/admin/user/delete/${user.id}"
-                                                                class="btn btn-danger">Delete</a>
-                                                        </td>
-                                                    </tr>
-
-                                                </c:forEach>
-
-                                            </tbody>
-                                        </table>
-                                        <nav aria-label="Page navigation example">
-                                            <ul class="pagination justify-content-center">
-                                                <li class="page-item">
-                                                    <a class="${1 eq currentPage ? 'disabled page-link' : 'page-link'}"
-                                                        href="/admin/user?page=${currentPage - 1}"
-                                                        aria-label="Previous">
-                                                        <span aria-hidden="true">&laquo;</span>
-                                                    </a>
-                                                </li>
-                                                <c:forEach begin="0" end="${totalPages - 1}" varStatus="loop">
-                                                    <li class="page-item">
-                                                        <a class="${(loop.index + 1) eq currentPage ? 'active page-link' : 'page-link'}"
-                                                            href="/admin/user?page=${loop.index + 1}">
-                                                            ${loop.index + 1}
-                                                        </a>
-                                                    </li>
-                                                </c:forEach>
-                                                <li class="page-item">
-                                                    <a class="${totalPages eq currentPage ? 'disabled page-link' : 'page-link'}"
-                                                        href="/admin/user?page=${currentPage + 1}" aria-label="Next">
-                                                        <span aria-hidden="true">&raquo;</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </main>
-                    <jsp:include page="../layout/footer.jsp" />
+<!-- Stats Cards -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+    <div class="bg-white rounded-lg shadow-sm p-6">
+        <div class="flex items-center">
+            <div class="flex-shrink-0">
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-users text-blue-600 text-xl"></i>
                 </div>
             </div>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-                crossorigin="anonymous"></script>
-            <script src="/js/scripts.js"></script>
+            <div class="ml-4">
+                <p class="text-sm font-medium text-gray-500">Tổng người dùng</p>
+                <p class="text-2xl font-semibold text-gray-900">${totalUsers}</p>
+            </div>
+        </div>
+    </div>
 
-        </body>
+    <div class="bg-white rounded-lg shadow-sm p-6">
+        <div class="flex items-center">
+            <div class="flex-shrink-0">
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-user-check text-green-600 text-xl"></i>
+                </div>
+            </div>
+            <div class="ml-4">
+                <p class="text-sm font-medium text-gray-500">Đang hoạt động</p>
+                <p class="text-2xl font-semibold text-gray-900">${activeUsers}</p>
+            </div>
+        </div>
+    </div>
 
-        </html>
+    <div class="bg-white rounded-lg shadow-sm p-6">
+        <div class="flex items-center">
+            <div class="flex-shrink-0">
+                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-user-shield text-purple-600 text-xl"></i>
+                </div>
+            </div>
+            <div class="ml-4">
+                <p class="text-sm font-medium text-gray-500">Quản trị viên</p>
+                <p class="text-2xl font-semibold text-gray-900">${adminUsers}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm p-6">
+        <div class="flex items-center">
+            <div class="flex-shrink-0">
+                <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-user-plus text-yellow-600 text-xl"></i>
+                </div>
+            </div>
+            <div class="ml-4">
+                <p class="text-sm font-medium text-gray-500">Đăng ký hôm nay</p>
+                <p class="text-2xl font-semibold text-gray-900">${todayRegistrations}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Filters -->
+<div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Tìm kiếm</label>
+            <input type="text" id="searchInput" placeholder="Tên, email..." 
+                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Vai trò</label>
+            <select id="roleFilter" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500">
+                <option value="">Tất cả vai trò</option>
+                <option value="ADMIN">Quản trị viên</option>
+                <option value="USER">Người dùng</option>
+            </select>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Trạng thái</label>
+            <select id="statusFilter" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500">
+                <option value="">Tất cả</option>
+                <option value="active">Hoạt động</option>
+                <option value="inactive">Đã khóa</option>
+            </select>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Hiển thị</label>
+            <select id="pageSizeSelect" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500">
+                <option value="5" ${pageSize == 5 ? 'selected' : ''}>5 người dùng</option>
+                <option value="10" ${pageSize == 10 ? 'selected' : ''}>10 người dùng</option>
+                <option value="20" ${pageSize == 20 ? 'selected' : ''}>20 người dùng</option>
+                <option value="50" ${pageSize == 50 ? 'selected' : ''}>50 người dùng</option>
+            </select>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">&nbsp;</label>
+            <button id="resetFilters" class="w-full px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
+                Đặt lại
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Users Table -->
+<div class="bg-white rounded-lg shadow-sm overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+        <h3 class="text-lg font-semibold text-gray-800">Danh sách người dùng</h3>
+        <span class="text-sm text-gray-600">
+            Hiển thị: ${fn:length(users)} người dùng
+        </span>
+    </div>
+    
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        ID
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Người dùng
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Email
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Vai trò
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Trạng thái
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Thao tác
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                <c:forEach var="user" items="${users}">
+                    <tr class="hover:bg-gray-50" data-user-id="${user.id}">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="text-sm font-medium text-gray-900">#${user.id}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10">
+                                    <c:choose>
+                                        <c:when test="${not empty user.avatar}">
+                                            <img class="h-10 w-10 rounded-full object-cover" 
+                                                 src="/images/avatar/${user.avatar}" 
+                                                 alt="${user.fullName}">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">
+                                                <i class="fas fa-user text-gray-500"></i>
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900">
+                                        ${user.fullName}
+                                    </div>
+                                    <c:if test="${not empty user.phone}">
+                                        <div class="text-sm text-gray-500">
+                                            ${user.phone}
+                                        </div>
+                                    </c:if>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="text-sm text-gray-900">${user.email}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <c:choose>
+                                <c:when test="${user.role.name == 'ADMIN'}">
+                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800">
+                                        <i class="fas fa-shield-alt mr-1"></i>
+                                        Quản trị viên
+                                    </span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                                        <i class="fas fa-user mr-1"></i>
+                                        Người dùng
+                                    </span>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <c:choose>
+                                <c:when test="${user.enabled != null && user.enabled == true}">
+                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                        <i class="fas fa-check-circle mr-1"></i>
+                                        Hoạt động
+                                    </span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
+                                        <i class="fas fa-ban mr-1"></i>
+                                        Đã khóa
+                                    </span>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <div class="flex space-x-2">
+                                <a href="/admin/user/${user.id}" 
+                                   class="text-blue-600 hover:text-blue-900" title="Xem chi tiết">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="/admin/user/update/${user.id}" 
+                                   class="text-green-600 hover:text-green-900" title="Chỉnh sửa">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <button onclick="toggleUserStatus(${user.id}, ${user.enabled != null ? user.enabled : false})" 
+                                        class="text-yellow-600 hover:text-yellow-900" title="${user.enabled != null && user.enabled ? 'Khóa tài khoản' : 'Kích hoạt tài khoản'}">
+                                    <i class="fas fa-${user.enabled != null && user.enabled ? 'lock' : 'unlock'}"></i>
+                                </button>
+                                <button onclick="deleteUser(${user.id}, '${user.fullName}')" 
+                                        class="text-red-600 hover:text-red-900" title="Xóa">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Pagination -->
+    <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+        <div class="flex-1 flex justify-between sm:hidden">
+            <c:if test="${currentPage > 0}">
+                <a href="/admin/user?page=${currentPage}&size=${pageSize}" 
+                   class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                    Trước
+                </a>
+            </c:if>
+            <c:if test="${currentPage < totalPages - 1}">
+                <a href="/admin/user?page=${currentPage + 2}&size=${pageSize}" 
+                   class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                    Sau
+                </a>
+            </c:if>
+        </div>
+        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+            <div>
+                <p class="text-sm text-gray-700">
+                    Hiển thị <span class="font-medium">${pageSize}</span> người dùng/trang - 
+                    Trang <span class="font-medium">${currentPage + 1}</span> / <span class="font-medium">${totalPages}</span>
+                </p>
+            </div>
+            <c:if test="${totalPages > 1}">
+                <div>
+                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                        <c:if test="${currentPage > 0}">
+                            <a href="/admin/user?page=${currentPage}&size=${pageSize}" 
+                               class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                        </c:if>
+                        
+                        <c:forEach begin="1" end="${totalPages}" var="page">
+                            <c:choose>
+                                <c:when test="${page == currentPage + 1}">
+                                    <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-primary-50 text-sm font-medium text-primary-600">
+                                        ${page}
+                                    </span>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="/admin/user?page=${page}&size=${pageSize}" 
+                                       class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                                        ${page}
+                                    </a>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                        
+                        <c:if test="${currentPage < totalPages - 1}">
+                            <a href="/admin/user?page=${currentPage + 2}&size=${pageSize}" 
+                               class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </c:if>
+                    </nav>
+                </div>
+            </c:if>
+        </div>
+    </div>
+</div>
+
+<!-- Empty State -->
+<c:if test="${empty users}">
+    <div class="bg-white rounded-lg shadow-sm p-12 text-center">
+        <div class="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+            <i class="fas fa-users text-gray-400 text-2xl"></i>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">Chưa có người dùng nào</h3>
+        <p class="text-gray-500">Người dùng sẽ hiển thị ở đây khi họ đăng ký tài khoản.</p>
+    </div>
+</c:if>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Filter functionality
+    const searchInput = document.getElementById('searchInput');
+    const roleFilter = document.getElementById('roleFilter');
+    const statusFilter = document.getElementById('statusFilter');
+    const pageSizeSelect = document.getElementById('pageSizeSelect');
+    const resetButton = document.getElementById('resetFilters');
+    
+    // Page size change event
+    pageSizeSelect.addEventListener('change', function() {
+        const newSize = this.value;
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set('size', newSize);
+        currentUrl.searchParams.set('page', '1'); // Reset to first page
+        window.location.href = currentUrl.toString();
+    });
+    
+    // Filter events
+    searchInput.addEventListener('input', filterUsers);
+    roleFilter.addEventListener('change', filterUsers);
+    statusFilter.addEventListener('change', filterUsers);
+    
+    resetButton.addEventListener('click', function() {
+        searchInput.value = '';
+        roleFilter.value = '';
+        statusFilter.value = '';
+        filterUsers();
+    });
+    
+    function filterUsers() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const roleValue = roleFilter.value;
+        const statusValue = statusFilter.value;
+        
+        const rows = document.querySelectorAll('tbody tr');
+        
+        rows.forEach(row => {
+            const userName = row.querySelector('td:nth-child(2) .text-gray-900').textContent.toLowerCase();
+            const email = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+            const roleElement = row.querySelector('td:nth-child(4) .bg-purple-100, td:nth-child(4) .bg-blue-100');
+            const role = roleElement.textContent.includes('Quản trị viên') ? 'ADMIN' : 'USER';
+            const statusElement = row.querySelector('td:nth-child(5) .bg-green-100, td:nth-child(5) .bg-red-100');
+            const isActive = statusElement.textContent.includes('Hoạt động');
+            
+            let showRow = true;
+            
+            // Search filter
+            if (searchTerm && !userName.includes(searchTerm) && !email.includes(searchTerm)) {
+                showRow = false;
+            }
+            
+            // Role filter
+            if (roleValue && role !== roleValue) {
+                showRow = false;
+            }
+            
+            // Status filter
+            if (statusValue) {
+                if (statusValue === 'active' && !isActive) {
+                    showRow = false;
+                } else if (statusValue === 'inactive' && isActive) {
+                    showRow = false;
+                }
+            }
+            
+            row.style.display = showRow ? '' : 'none';
+        });
+    }
+});
+
+function toggleUserStatus(userId, currentStatus) {
+    // Debug logs
+    console.log('toggleUserStatus called with userId:', userId, 'currentStatus:', currentStatus);
+    
+    // Ensure userId is valid
+    if (!userId || userId === '' || userId === 'undefined') {
+        // Try to get userId from button's data attribute or table row
+        const button = event.target.closest('button');
+        const row = button.closest('tr');
+        userId = row.getAttribute('data-user-id');
+        console.log('Fallback userId from data attribute:', userId);
+    }
+    
+    if (!userId || userId === '' || userId === 'undefined') {
+        console.error('Cannot determine userId for toggle status');
+        alert('Lỗi: Không thể xác định ID người dùng');
+        return;
+    }
+    
+    const action = currentStatus ? 'khóa' : 'kích hoạt';
+    if (confirm(`Bạn có chắc chắn muốn ${action} tài khoản này?`)) {
+        // Show loading state on button
+        const button = event.target.closest('button');
+        const originalHTML = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        button.disabled = true;
+        
+        const toggleUrl = '/admin/user/' + userId + '/toggle-status';
+        console.log('Attempting POST request to:', toggleUrl);
+        
+        fetch(toggleUrl, {
+            method: 'POST'
+        })
+        .then(response => {
+            console.log('POST response status:', response.status);
+            return response.json();
+        })
+        .then(data => {
+            console.log('POST response data:', data);
+            if (data.success) {
+                alert(data.message);
+                location.reload();
+            } else {
+                alert('Lỗi: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error during toggle status request:', error);
+            alert('Có lỗi xảy ra khi thay đổi trạng thái');
+        })
+        .finally(() => {
+            // Reset button state
+            button.innerHTML = originalHTML;
+            button.disabled = false;
+        });
+    }
+}
+
+function deleteUser(userId, userName) {
+    // Debug logs
+    console.log('deleteUser called with userId:', userId, 'userName:', userName);
+    
+    // Ensure userId is valid
+    if (!userId || userId === '' || userId === 'undefined') {
+        // Try to get userId from button's data attribute or table row
+        const button = event.target.closest('button');
+        const row = button.closest('tr');
+        userId = row.getAttribute('data-user-id');
+        console.log('Fallback userId from data attribute:', userId);
+    }
+    
+    if (!userId || userId === '' || userId === 'undefined') {
+        console.error('Cannot determine userId for deletion');
+        alert('Lỗi: Không thể xác định ID người dùng');
+        return;
+    }
+    
+    if (confirm(`Bạn có chắc chắn muốn xóa người dùng "${userName}"? Hành động này không thể hoàn tác.`)) {
+        // Show loading state on button
+        const button = event.target.closest('button');
+        const originalHTML = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        button.disabled = true;
+        
+        const deleteUrl = '/admin/user/' + userId + '/delete';
+        console.log('Attempting DELETE request to:', deleteUrl);
+        
+        fetch(deleteUrl, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            console.log('DELETE response status:', response.status);
+            return response.json();
+        })
+        .then(data => {
+            console.log('DELETE response data:', data);
+            if (data.success) {
+                alert(data.message);
+                location.reload();
+            } else {
+                alert('Lỗi: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error during DELETE request:', error);
+            alert('Có lỗi xảy ra khi xóa người dùng');
+        })
+        .finally(() => {
+            // Reset button state
+            button.innerHTML = originalHTML;
+            button.disabled = false;
+        });
+    }
+}
+</script>
+
+<jsp:include page="../layout/footer.jsp" /> 

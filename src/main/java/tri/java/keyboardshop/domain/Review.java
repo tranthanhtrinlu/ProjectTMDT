@@ -33,6 +33,15 @@ public class Review implements Serializable {
     @Max(value = 5, message = "Đánh giá phải từ 1 đến 5 sao")
     private int rating;
 
+<<<<<<< Updated upstream
+=======
+    @NotEmpty(message = "Nội dung đánh giá không được để trống")
+    @Column(columnDefinition = "TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
+    private String comment;
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+>>>>>>> Stashed changes
     private LocalDateTime createdAt;
 
     // user_id

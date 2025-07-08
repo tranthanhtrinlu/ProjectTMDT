@@ -37,7 +37,8 @@ public class ProductController {
     @GetMapping("/admin/product")
     public String getProduct(
             Model model,
-            @RequestParam("page") Optional<String> pageOptional) {
+            @RequestParam("page") Optional<String> pageOptional,
+            @RequestParam("size") Optional<String> sizeOptional) {
         int page = 1;
         try {
             if (pageOptional.isPresent()) {
@@ -51,13 +52,27 @@ public class ProductController {
             // TODO: handle exception
         }
 
-        Pageable pageable = PageRequest.of(page - 1, 5);
+        // Parse page size with default value of 10
+        int size = 10;
+        try {
+            if (sizeOptional.isPresent()) {
+                size = Integer.parseInt(sizeOptional.get());
+                // Limit max size to prevent performance issues
+                size = Math.min(size, 100);
+                size = Math.max(size, 5); // Minimum 5 items per page
+            }
+        } catch (Exception e) {
+            size = 10;
+        }
+
+        Pageable pageable = PageRequest.of(page - 1, size);
         Page<Product> prs = this.productService.fetchProducts(pageable);
         List<Product> listProducts = prs.getContent();
         model.addAttribute("products", listProducts);
 
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", prs.getTotalPages());
+        model.addAttribute("pageSize", size);
 
         return "admin/product/show";
     }
@@ -65,6 +80,7 @@ public class ProductController {
     @GetMapping("/admin/product/create")
     public String getCreateProductPage(Model model) {
         model.addAttribute("newProduct", new Product());
+        model.addAttribute("productTypes", Product.ProductType.values());
         return "admin/product/create";
     }
 
@@ -81,6 +97,13 @@ public class ProductController {
         // upload image
         String image = this.uploadService.handleSaveUploadFile(file, "product");
         pr.setImage(image);
+        
+        // Đảm bảo discount không âm và không vượt quá 100%
+        if (pr.getDiscount() < 0) {
+            pr.setDiscount(0);
+        } else if (pr.getDiscount() > 100) {
+            pr.setDiscount(100);
+        }
 
         this.productService.createProduct(pr);
 
@@ -91,6 +114,7 @@ public class ProductController {
     public String getUpdateProductPage(Model model, @PathVariable long id) {
         Optional<Product> currentProduct = this.productService.fetchProductById(id);
         model.addAttribute("newProduct", currentProduct.get());
+        model.addAttribute("productTypes", Product.ProductType.values());
         return "admin/product/update";
     }
 
@@ -119,6 +143,16 @@ public class ProductController {
             currentProduct.setShortDesc(pr.getShortDesc());
             currentProduct.setFactory(pr.getFactory());
             currentProduct.setTarget(pr.getTarget());
+            currentProduct.setType(pr.getType());
+            
+            // Cập nhật discount
+            int discount = pr.getDiscount();
+            if (discount < 0) {
+                discount = 0;
+            } else if (discount > 100) {
+                discount = 100;
+            }
+            currentProduct.setDiscount(discount);
 
             this.productService.createProduct(currentProduct);
         }
@@ -128,9 +162,17 @@ public class ProductController {
 
     @GetMapping("/admin/product/delete/{id}")
     public String getDeleteProductPage(Model model, @PathVariable long id) {
-        model.addAttribute("id", id);
-        model.addAttribute("newProduct", new Product());
-        return "admin/product/delete";
+        Optional<Product> productOptional = this.productService.fetchProductById(id);
+        if (productOptional.isPresent()) {
+            Product product = productOptional.get();
+            model.addAttribute("id", id);
+            model.addAttribute("product", product);
+            model.addAttribute("newProduct", new Product());
+            return "admin/product/delete";
+        } else {
+            // Product not found, redirect back to product list
+            return "redirect:/admin/product";
+        }
     }
 
     @PostMapping("/admin/product/delete")

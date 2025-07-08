@@ -29,12 +29,18 @@
                     <link href="/client/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
                     <link href="/client/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
-
                     <!-- Customized Bootstrap Stylesheet -->
                     <link href="/client/css/bootstrap.min.css" rel="stylesheet">
 
                     <!-- Template Stylesheet -->
                     <link href="/client/css/style.css" rel="stylesheet">
+                    
+                    <!-- Meta CSRF -->
+                    <meta name="_csrf" content="${_csrf.token}" />
+                    <meta name="_csrf_header" content="${_csrf.headerName}" />
+                    
+                    <!-- jQuery Toast CSS -->
+                    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css" rel="stylesheet">
                 </head>
 
                 <body>
@@ -73,7 +79,7 @@
                                     </thead>
                                     <tbody>
                                         <c:if test="${ empty cartDetails}">
-                                            <tr>
+                                            <tr class="cart-empty-row">
                                                 <td colspan="6">
                                                     Không có sản phẩm trong giỏ hàng
                                                 </td>
@@ -130,13 +136,22 @@
                                                     </p>
                                                 </td>
                                                 <td>
-                                                    <form method="post" action="/delete-cart-product/${cartDetail.id}">
-                                                        <input type="hidden" name="${_csrf.parameterName}"
-                                                            value="${_csrf.token}" />
-                                                        <button class="btn btn-md rounded-circle bg-light border mt-4">
+                                                    <div class="d-flex flex-column align-items-center mt-4">
+                                                        <!-- Customize button for keyboards only -->
+                                                        <c:if test="${cartDetail.product.type == 'KEYBOARD'}">
+                                                            <a href="/custom/keyboard/${cartDetail.product.id}" 
+                                                               class="btn btn-sm btn-warning mb-2"
+                                                               title="Tùy chỉnh bàn phím">
+                                                                <i class="fas fa-cogs"></i> Custom
+                                                            </a>
+                                                        </c:if>
+                                                        <!-- Remove button -->
+                                                        <button class="btn btn-sm rounded-circle bg-light border btnRemoveCartProduct" 
+                                                                data-cart-detail-id="${cartDetail.id}"
+                                                                title="Xóa sản phẩm khỏi giỏ hàng">
                                                             <i class="fa fa-times text-danger"></i>
                                                         </button>
-                                                    </form>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -207,14 +222,11 @@
                     </div>
                     <!-- Cart Page End -->
 
-
                     <jsp:include page="../layout/footer.jsp" />
-
 
                     <!-- Back to Top -->
                     <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i
                             class="fa fa-arrow-up"></i></a>
-
 
                     <!-- JavaScript Libraries -->
                     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -226,6 +238,9 @@
 
                     <!-- Template Javascript -->
                     <script src="/client/js/main.js"></script>
+                    
+                    <!-- jQuery Toast JS -->
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
                 </body>
 
                 </html>

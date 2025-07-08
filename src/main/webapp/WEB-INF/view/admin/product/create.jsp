@@ -1,9 +1,8 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-        <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-            <!DOCTYPE html>
-            <html lang="en">
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+<<<<<<< Updated upstream
             <head>
                 <meta charset="utf-8" />
                 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -25,79 +24,42 @@
                 </script>
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
             </head>
+=======
+<c:set var="pageTitle" value="Thêm sản phẩm mới" />
+<jsp:include page="../layout/header.jsp" />
+>>>>>>> Stashed changes
 
-            <body class="sb-nav-fixed">
-                <jsp:include page="../layout/header.jsp" />
-                <div id="layoutSidenav">
-                    <jsp:include page="../layout/sidebar.jsp" />
-                    <div id="layoutSidenav_content">
-                        <main>
-                            <div class="container-fluid px-4">
-                                <h1 class="mt-4">Products</h1>
-                                <ol class="breadcrumb mb-4">
-                                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="/admin/product">Product</a></li>
-                                    <li class="breadcrumb-item active">Create</li>
-                                </ol>
-                                <div class="mt-5">
-                                    <div class="row">
-                                        <div class="col-md-6 col-12 mx-auto">
-                                            <h3>Create a product</h3>
-                                            <hr />
-                                            <form:form method="post" action="/admin/product/create" class="row"
-                                                enctype="multipart/form-data" modelAttribute="newProduct">
-                                                <c:set var="errorName">
-                                                    <form:errors path="name" cssClass="invalid-feedback" />
-                                                </c:set>
-                                                <c:set var="errorPrice">
-                                                    <form:errors path="price" cssClass="invalid-feedback" />
-                                                </c:set>
-                                                <c:set var="errorDetailDesc">
-                                                    <form:errors path="detailDesc" cssClass="invalid-feedback" />
-                                                </c:set>
-                                                <c:set var="errorShortDesc">
-                                                    <form:errors path="shortDesc" cssClass="invalid-feedback" />
-                                                </c:set>
-                                                <c:set var="errorQuantity">
-                                                    <form:errors path="quantity" cssClass="invalid-feedback" />
-                                                </c:set>
+<!-- Header -->
+<div class="mb-6">
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Thêm sản phẩm mới</h1>
+            <p class="text-gray-600">Thêm sản phẩm mới vào cửa hàng</p>
+        </div>
+        <a href="/admin/product" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Quay lại
+        </a>
+    </div>
+</div>
 
-                                                <div class="mb-3 col-12 col-md-6">
-                                                    <label class="form-label">Name:</label>
-                                                    <form:input type="text"
-                                                        class="form-control ${not empty errorName ? 'is-invalid' : ''}"
-                                                        path="name" />
-                                                    ${errorName}
-                                                </div>
-                                                <div class="mb-3 col-12 col-md-6">
-                                                    <label class="form-label">Price:</label>
-                                                    <form:input type="number"
-                                                        class="form-control ${not empty errorPrice ? 'is-invalid' : ''}"
-                                                        path="price" />
-                                                    ${errorPrice}
-                                                </div>
-                                                <div class="mb-3 col-12">
-                                                    <label class="form-label">Detail description:</label>
-                                                    <form:textarea type="text"
-                                                        class="form-control ${not empty errorDetailDesc ? 'is-invalid' : ''}"
-                                                        path="detailDesc" />
-                                                    ${errorDetailDesc}
-                                                </div>
-                                                <div class="mb-3 col-12 col-md-6">
-                                                    <label class="form-label">Short description:</label>
-                                                    <form:input type="text"
-                                                        class="form-control ${not empty errorShortDesc ? 'is-invalid' : ''}"
-                                                        path="shortDesc" />
-                                                    ${errorShortDesc}
-                                                </div>
-                                                <div class="mb-3 col-12 col-md-6">
-                                                    <label class="form-label">Quantity:</label>
-                                                    <form:input type="number"
-                                                        class="form-control ${not empty errorQuantity ? 'is-invalid' : ''}"
-                                                        path="quantity" />
-                                                    ${errorQuantity}
-                                                </div>
+<!-- Create Product Form -->
+<div class="bg-white rounded-lg shadow-sm p-6">
+    <form:form method="post" action="/admin/product/create" modelAttribute="newProduct" enctype="multipart/form-data" class="space-y-6">
+        
+        <!-- Basic Information -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Product Name -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Tên sản phẩm <span class="text-red-500">*</span>
+                </label>
+                <form:input path="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500" 
+                           placeholder="Nhập tên sản phẩm"/>
+                <form:errors path="name" cssClass="text-red-500 text-sm mt-1 block"/>
+            </div>
 
+<<<<<<< Updated upstream
                                                 <div class="mb-3 col-12 col-md-6">
                                                     <label class="form-label">Factory:</label>
                                                     <form:select class="form-select" path="factory">
@@ -134,20 +96,173 @@
                                                     <button type="submit" class="btn btn-primary">Create</button>
                                                 </div>
                                             </form:form>
+=======
+            <!-- Factory -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Thương hiệu <span class="text-red-500">*</span>
+                </label>
+                <form:input path="factory" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500" 
+                           placeholder="Nhập thương hiệu"/>
+                <form:errors path="factory" cssClass="text-red-500 text-sm mt-1 block"/>
+            </div>
+>>>>>>> Stashed changes
 
-                                        </div>
+            <!-- Price -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Giá (VNĐ) <span class="text-red-500">*</span>
+                </label>
+                <form:input path="price" type="number" min="0" step="1000" 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500" 
+                           placeholder="Nhập giá sản phẩm"/>
+                <form:errors path="price" cssClass="text-red-500 text-sm mt-1 block"/>
+            </div>
 
-                                    </div>
-                                </div>
-                            </div>
-                        </main>
-                        <jsp:include page="../layout/footer.jsp" />
-                    </div>
+            <!-- Quantity -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Số lượng <span class="text-red-500">*</span>
+                </label>
+                <form:input path="quantity" type="number" min="0" 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500" 
+                           placeholder="Nhập số lượng"/>
+                <form:errors path="quantity" cssClass="text-red-500 text-sm mt-1 block"/>
+            </div>
+
+            <!-- Product Type -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Loại sản phẩm <span class="text-red-500">*</span>
+                </label>
+                <form:select path="type" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500">
+                    <option value="">-- Chọn loại sản phẩm --</option>
+                    <c:forEach var="type" items="${productTypes}">
+                        <form:option value="${type}">${type.getDisplayName()}</form:option>
+                    </c:forEach>
+                </form:select>
+                <form:errors path="type" cssClass="text-red-500 text-sm mt-1 block"/>
+            </div>
+
+            <!-- Target -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Đối tượng sử dụng
+                </label>
+                <form:input path="target" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500" 
+                           placeholder="Ví dụ: Gaming, Văn phòng, Học tập"/>
+                <form:errors path="target" cssClass="text-red-500 text-sm mt-1 block"/>
+            </div>
+
+            <!-- Discount -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Giảm giá (%)
+                </label>
+                <form:input path="discount" type="number" min="0" max="100" 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500" 
+                           placeholder="0"/>
+                <form:errors path="discount" cssClass="text-red-500 text-sm mt-1 block"/>
+                <p class="text-gray-500 text-sm mt-1">Nhập từ 0 đến 100</p>
+            </div>
+
+            <!-- Product Image -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Hình ảnh sản phẩm <span class="text-red-500">*</span>
+                </label>
+                <input type="file" name="keyboardstoreFile" accept="image/*" required
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500"
+                       onchange="previewImage(this)"/>
+                <p class="text-gray-500 text-sm mt-1">Chỉ chấp nhận file ảnh (JPG, PNG, GIF)</p>
+                
+                <!-- Image Preview -->
+                <div id="imagePreview" class="mt-4 hidden">
+                    <img id="preview" src="#" alt="Preview" class="max-w-xs max-h-48 rounded-lg shadow-md"/>
                 </div>
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-                    crossorigin="anonymous"></script>
-                <script src="/js/scripts.js"></script>
+            </div>
+        </div>
 
-            </body>
+        <!-- Descriptions -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Short Description -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Mô tả ngắn
+                </label>
+                <form:textarea path="shortDesc" rows="4" 
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500" 
+                              placeholder="Nhập mô tả ngắn về sản phẩm"/>
+                <form:errors path="shortDesc" cssClass="text-red-500 text-sm mt-1 block"/>
+            </div>
 
-            </html>
+            <!-- Detail Description -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Mô tả chi tiết
+                </label>
+                <form:textarea path="detailDesc" rows="4" 
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500" 
+                              placeholder="Nhập mô tả chi tiết về sản phẩm"/>
+                <form:errors path="detailDesc" cssClass="text-red-500 text-sm mt-1 block"/>
+            </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="flex items-center justify-end space-x-4 pt-6 border-t">
+            <a href="/admin/product" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg">
+                Hủy
+            </a>
+            <button type="submit" class="bg-primary-500 hover:bg-primary-600 text-white px-6 py-2 rounded-lg flex items-center">
+                <i class="fas fa-save mr-2"></i>
+                Thêm sản phẩm
+            </button>
+        </div>
+    </form:form>
+</div>
+
+<script>
+function previewImage(input) {
+    const preview = document.getElementById('preview');
+    const previewContainer = document.getElementById('imagePreview');
+    
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            previewContainer.classList.remove('hidden');
+        };
+        
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        previewContainer.classList.add('hidden');
+    }
+}
+
+// Form validation
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const requiredFields = form.querySelectorAll('input[required], select[required]');
+    
+    form.addEventListener('submit', function(e) {
+        let hasErrors = false;
+        
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                field.classList.add('border-red-500');
+                hasErrors = true;
+            } else {
+                field.classList.remove('border-red-500');
+            }
+        });
+        
+        if (hasErrors) {
+            e.preventDefault();
+            alert('Vui lòng điền đầy đủ các trường bắt buộc!');
+        }
+    });
+});
+</script>
+
+<jsp:include page="../layout/footer.jsp" /> 

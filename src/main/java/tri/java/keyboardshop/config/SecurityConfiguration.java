@@ -11,6 +11,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 
 import jakarta.servlet.DispatcherType;
@@ -57,8 +61,25 @@ public class SecurityConfiguration {
     }
 
     @Bean
+<<<<<<< Updated upstream
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // v6. lamda
+=======
+    public HttpFirewall httpFirewall() {
+        // Use DefaultHttpFirewall which is less strict
+        return new DefaultHttpFirewall();
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.httpFirewall(httpFirewall());
+    }
+
+    @Bean
+    SecurityFilterChain filterChain(
+            HttpSecurity http,
+            UserService userService) throws Exception {
+>>>>>>> Stashed changes
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(DispatcherType.FORWARD,
@@ -73,7 +94,21 @@ public class SecurityConfiguration {
 
                         .anyRequest().authenticated())
 
+<<<<<<< Updated upstream
                 .sessionManagement((sessionManagement) -> sessionManagement
+=======
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/admin/user/**", "/admin/order/**", "/admin/custom-order/**", "/admin/comment/**"))
+
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/login")
+                        .successHandler(customSuccessHandler())
+                        .failureUrl("/login?error")
+                        .userInfoEndpoint(user -> user
+                                .userService(new CustomOAuth2UserService(userService))))
+
+                .sessionManagement(sessionManagement -> sessionManagement
+>>>>>>> Stashed changes
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                         .invalidSessionUrl("/logout?expired")
                         .maximumSessions(1)

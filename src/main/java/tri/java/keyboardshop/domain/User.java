@@ -43,6 +43,61 @@ public class User implements Serializable {
 
     private String avatar;
 
+<<<<<<< Updated upstream
+=======
+    private String provider;
+
+    @Column(name = "verification_code")
+    private String verificationCode;
+
+    @Column(name = "enabled", nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private Boolean enabled = true;
+
+    // Getters and Setters
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public boolean isEnabled() {
+        return enabled != null ? enabled : false;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+    
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled != null ? enabled : true;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if (this.provider == null) {
+            this.provider = "LOCAL";
+        }
+        if (this.enabled == null) {
+            this.enabled = true;
+        }
+    }
+    
+    @PreUpdate
+    public void preUpdate() {
+        if (this.enabled == null) {
+            this.enabled = true;
+        }
+    }
+    public String getProvider() {
+        return provider;
+    }
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
+
+>>>>>>> Stashed changes
     // roleId
     // User many -> to one -> role
     @ManyToOne

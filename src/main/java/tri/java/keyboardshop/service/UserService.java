@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import tri.java.keyboardshop.domain.Role;
 import tri.java.keyboardshop.domain.User;
 import tri.java.keyboardshop.domain.dto.RegisterDTO;
+import tri.java.keyboardshop.repository.CustomOrderRepository;
 import tri.java.keyboardshop.repository.OrderRepository;
 import tri.java.keyboardshop.repository.ProductRepository;
 import tri.java.keyboardshop.repository.RoleRepository;
@@ -20,19 +21,26 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
+    private final CustomOrderRepository customOrderRepository;
 
     public UserService(UserRepository userRepository,
             RoleRepository roleRepository,
             ProductRepository productRepository,
-            OrderRepository orderRepository) {
+            OrderRepository orderRepository,
+            CustomOrderRepository customOrderRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.productRepository = productRepository;
         this.orderRepository = orderRepository;
+        this.customOrderRepository = customOrderRepository;
     }
 
     public Page<User> getAllUsers(Pageable page) {
         return this.userRepository.findAll(page);
+    }
+    
+    public Page<User> getAllUsersWithFilters(Pageable pageable, String search, String role, String status) {
+        return this.userRepository.findUsersWithFilters(search, role, status, pageable);
     }
 
     public List<User> getAllUsersByEmail(String email) {
@@ -82,6 +90,24 @@ public class UserService {
     }
 
     public long countOrders() {
-        return this.orderRepository.count();
+        // Count from both regular orders and custom orders
+        long regularOrders = this.orderRepository.count();
+        long customOrders = this.customOrderRepository.count();
+        return regularOrders + customOrders;
+    }
+    
+    public long countActiveUsers() {
+        return this.userRepository.countByEnabled(true);
+    }
+    
+    public long countAdminUsers() {
+        return this.userRepository.countByRoleName("ADMIN");
+    }
+    
+    public long countTodayRegistrations() {
+        // TODO: This should count actual today registrations
+        // For now return a placeholder value since User entity doesn't have createdAt field
+        // To implement properly, add createdAt field to User entity and update the query
+        return Math.min(3, this.userRepository.count()); // Return max 3 or total users if less
     }
 }

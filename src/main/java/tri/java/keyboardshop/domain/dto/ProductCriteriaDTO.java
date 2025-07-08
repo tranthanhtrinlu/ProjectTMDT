@@ -2,12 +2,14 @@ package tri.java.keyboardshop.domain.dto;
 
 import java.util.List;
 import java.util.Optional;
+import tri.java.keyboardshop.domain.Product.ProductType;
 
 public class ProductCriteriaDTO {
     private Optional<String> page;
     private Optional<List<String>> factory;
     private Optional<List<String>> target;
     private Optional<List<String>> price;
+    private Optional<List<String>> type;
     private Optional<String> sort;
 
     public Optional<String> getPage() {
@@ -42,12 +44,32 @@ public class ProductCriteriaDTO {
         this.price = price;
     }
 
+    public Optional<List<String>> getType() {
+        return type;
+    }
+
+    public void setType(Optional<List<String>> type) {
+        this.type = type;
+    }
+
     public Optional<String> getSort() {
         return sort;
     }
 
     public void setSort(Optional<String> sort) {
         this.sort = sort;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductCriteriaDTO{" +
+                "page=" + page +
+                ", factory=" + factory +
+                ", target=" + target +
+                ", price=" + price +
+                ", type=" + type +
+                ", sort=" + sort +
+                '}';
     }
 
 }
